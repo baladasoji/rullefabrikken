@@ -7,6 +7,8 @@ var laps = [];
 var timers = [] ;
 var laptimers = [];
 var timersecs=0;
+var buttonclass='btn btn-primary btn-lg btn-block';
+var disabled="disabled";
 
 class Skater {
     constructor(number, name ,laps, starttime, totaltime, laptimes) {
@@ -62,7 +64,7 @@ class Skater {
     display()
     {
 	
-	    return  `<div class="row"> <div class="col-3"><p><a class="btn btn-secondary btn-checkout" href="#unknown" role="button" id=${this.number} > ${this.number} </a></p></div> <div class="col-3"> <p> ${this.laps} </p> </div> <div class="col-3"> <p> ${this.displayabletotaltime} </p> </div> <div class="col-3"> <p> ${this.displayablelaptimes} </p> </div></div>`;
+	    return  `<div class="row"> <div class="col-3"><button type="button" class='${buttonclass}' href="#" id=${this.number} ${disabled} > ${this.number} </button></div> <div class="col-3">  <h1> <span class="badge badge-primary badge-pill"> ${this.laps} </span> </h1> </div> <div class="col-3"> ${this.displayabletotaltime}  </div> <div class="col-3"> ${this.displayablelaptimes}  </div></div>`;
     }
 }
 
@@ -131,6 +133,8 @@ function refreshPlayers()
 function startRace()
 {
     startTime = new Date().getTime();
+    disabled="";
+    refreshPlayers();
 }
 
 function getLapsedTime()
