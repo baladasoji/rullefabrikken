@@ -11,15 +11,18 @@ var buttonclass='btn btn-primary btn-lg btn-block';
 var disabled="disabled";
 
 class Skater {
-    constructor(number, name ,laps, starttime, totaltime, laptimes) {
+    constructor(number, name ,laps, totallaps, starttime, totaltime, laptimes) {
         this.number = number;
         this.name = name;
 	this.laps = laps;
+	this.totallaps=totallaps;
 	this.starttime = starttime;
         this.totaltime = totaltime;
 	this.laptimes=laptimes;
 	this.displayabletotaltime='';
-	this.displayablelaptimes=[];
+	this.displayablelaptimes='';
+	this.DNF=true;
+	this.disabled="disabled";
     }
 
     setStarttime(starttime) {
@@ -33,7 +36,12 @@ class Skater {
     incrementLap()
     {
 	this.laps++ ;
-	console.log("incrementing the laps" + this.laps);
+	if (this.laps == this.totallaps)
+	{
+	    this.DNF = false;
+	    this.disabled = "disabled" ;
+	}
+	//console.log("incrementing the laps" + this.laps);
 	this.setTotalTime();
 	this.setLapTime();
     }
@@ -41,7 +49,7 @@ class Skater {
     setTotalTime ()
     {
 	this.totaltime=timersecs;
-	this.displayabletotaltime = convertSecondsToTime(this.totaltime);
+	this.displayabletotaltime = "<h3 align='center'> <span class='badge badge-pill badge-success'>" +  convertSecondsToTime(this.totaltime) + "</span></h3>";
     }
 
     setLapTime()
@@ -54,7 +62,7 @@ class Skater {
 	{
 	    this.laptimes[this.laps]= timersecs;
 	}
-	this.displayablelaptimes[this.laps]= convertSecondsToTime(this.laptimes[this.laps]);
+	this.displayablelaptimes += "<span class='badge badge-pill badge-info'>"+ convertSecondsToTime(this.laptimes[this.laps]) + "</span>";
     }
 
     // Adding a method to the constructor
@@ -64,7 +72,7 @@ class Skater {
     display()
     {
 	
-	    return  `<div class="row"> <div class="col-3"><button type="button" class='${buttonclass}' href="#" id=${this.number} ${disabled} > ${this.number} </button></div> <div class="col-3">  <h1> <span class="badge badge-primary badge-pill"> ${this.laps} </span> </h1> </div> <div class="col-3"> ${this.displayabletotaltime}  </div> <div class="col-3"> ${this.displayablelaptimes}  </div></div>`;
+	    return  `<div class="row"> <div class="col-4"><button type="button" class='${buttonclass}' href="#" id=${this.number} ${this.disabled} > ${this.number}  <span class="badge badge-light badge-pill"> ${this.laps} </span>  </button> </div> <div class="col-4"> ${this.displayabletotaltime}  </div> <div class="col-4"> ${this.displayablelaptimes}  </div></div>`;
     }
 }
 
@@ -77,13 +85,20 @@ function display (s)
 	
 }
 */
+
+function showbadges(val)
+{
+   return `<span class="badge badge-light">${val}</span>`;
+}
+
 function addPlayer(pname)
 {
 //    pname = document.getElementById('playernumber').value;
     lt = [];
-    s = new Skater(pname, pname, 0, 0, 0, lt);
+    s = new Skater(pname, pname, 0, 5, 0, 0, lt);
     players.push(s);
-    clicks.push(s.incrementLap);
+    document.getElementById ("playernumber").value="";
+    //clicks.push(s.incrementLap);
     refreshPlayers();
 }
 
@@ -96,11 +111,10 @@ function clearPlayerList()
 
 function callRest()
 {
-
-	addPlayer(36);
-	addPlayer(86);
-	addPlayer(16);
-        refreshPlayers();
+	//addPlayer(36);
+	//addPlayer(86);
+	//addPlayer(16);
+        //refreshPlayers();
 }
 
 
@@ -114,7 +128,8 @@ function increment(pnum)
 function refreshPlayers()
 {
     
-        var row='<div class="container"> <div class="row"> <div class="col-12 table-header"> Players  </div></div>' ;
+        var row='<div class="container"> ' ;
+	row = row + '<div class="row"> <div class="col-4 table-header ">Player Bib (Laps) </div><div class="col-4 table-header">Total Time</div><div class="col-4 table-header">Lap timings</div></div>' ;
 	for (var pnum in players )
 	{
 	    row = row + players[pnum].display(); 
@@ -133,6 +148,7 @@ function refreshPlayers()
 function startRace()
 {
     startTime = new Date().getTime();
+    players.forEach(s => { s.disabled=""; });
     disabled="";
     refreshPlayers();
 }

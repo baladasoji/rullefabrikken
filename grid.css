@@ -3,22 +3,19 @@ body {
   padding-bottom: 2rem;
 }
 
-h3 {
-  margin-top: 2rem;
-}
-
 .row {
-  margin-bottom: 0rem;
+  margin-bottom: 0.0rem;
 }
 .row .row {
-  margin-top: 1rem;
-  margin-bottom: 0;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 [class*="col-"] {
-  padding-top: 1rem;
-  padding-bottom: 0rem;
-  background-color: rgba(86, 61, 124, .15);
-  border: 1px solid rgba(86, 61, 124, .2);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: #eeeeee;
+  border-color: #dddddd;
+  border: 0.2px solid gray ;
 }
 
 hr {

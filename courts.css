@@ -1,37 +1,12 @@
 body {
         margin: 40px;
     }
-    .playerincourt {
-        background-color: #77bb77;
-        border-radius: 5px;
-        font-size: 120%;
-    }
-    .newcourt {
-        font-size: 120%;
-        border-radius: 5px;
-        text-align: center;
-    }
-    .btn-checkin {
-        background-color: #003300;
-        color:#eeeeee;
-    }
-    .btn-checkout {
-        background-color: #330000;
-        color:#eeeeee;
-    }
-    .checkedin-player-name {
-        font-size:150%;
-        color:#338833
-    }
-    .checkedout-player-name {
-        font-size:150%;
-        color:#883333
-    }
     .table-header{
         margin-top: 2rem;
         font-size: 120%;
-        background: #444444;
-        color: #eeeeee;
+        background-color: #333333;
+        color: #ffffff;
+	text-align: center;
     }
 
 

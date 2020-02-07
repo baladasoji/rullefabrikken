@@ -51,38 +51,33 @@
     <main role="main">
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <div class="container">
-          <h2 class="display-5">Welcome to SBK practice sessions</h2>
+          <h2 class="display-5">Lap Timer Recording</h2>
           <p>You can use this website to check in and check out of practice sessions and to view the schedule of the day.</p>
 	  <p>The schedules are automatically generated every Friday and Sunday once every 30 minutes based on the number of people checked in. If you need to be in the schedule please ensure that you are checked in atleast 5 mins before the schedule is generated. Schedules are generated at</p>
-	  <p> Friday : 20:05, 20:35, 21:05, 21:35 </p>
-	  <p> Sunday : 08:05, 08:35, 09:05,  09:35, 10:05 and 10:30 </p>
-	  <p>By default only doubles schedule are generated. If you need to manually generate a schedule OR override the automatic one OR prepare a singles schedule you can do so by visiting the <a href=http://practice.shuttlers.dk/admin.html> Admin Page </a> </p>
-
         </div>
-      </div>
 
-        <div class="container" id="actions">
-		<form class="form-inline" >
-		      <label class="sr-only" for="playernumber">Player Number</label>
-		      <input type="text" class="form-control mb-2 mr-sm-2" id="playernumber" placeholder="33">
-		      <button type="submit" class="btn btn-primary mb-2" onClick="addPlayer(playernumber.value)">Add</button>
+        <div class="container">
+        <div class="container" id="playerentry">
+		<form >
+		    <div class="row">
+		      <div class="col-6"> <input type="text" class="form-control mb-2 mr-sm-2" id="playernumber" placeholder=""> </div>
+		      <div class="col-6"><button type="submit" class="btn btn-dark btn-block" onClick="addPlayer(playernumber.value)">Add Player</button> </div>
+		    </div>
 		</form>
-		<form class="form-inline" >
-		      <button type="input" class="btn btn-primary mb-2" onClick="startRace()">Start Race</button>
-		      <button type="input" class="btn btn-primary mb-2" onClick="endRace()">End Race</button> 
+        </div> <!-- actions -->
+        <div class="container" id="startstoprace">
+		<form >
+		    <div class="row">
+		      <div class="col-6"> <button type="input" class="btn btn-success btn-block " onClick="startRace()">Start Race</button> </div>
+		      <div class="col-6"><button type="input" class="btn btn-danger btn-block " onClick="endRace()">End Race</button> </div>
+		    </div>
 		    
 		</form>
-		<p id="demo"></p>
-        </div> <!-- actions -->
+        </div> <!-- startstoprace -->
+	</div>
         <div class="container" id="players">
-        </div> <!-- players -->
-        <p></p>
-        <p></p>
-        <p></p>
-        <div class="container" id="schedule">
         </div> <!-- schedule -->
+		<p id="demo"></p>
 
     </main>
   </body>
