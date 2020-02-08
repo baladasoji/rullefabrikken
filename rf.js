@@ -94,14 +94,24 @@ function showbadges(val)
 function addPlayer(pname)
 {
   //    pname = document.getElementById('playernumber').value;
-  lt = [];
-  s = new Skater(pname, pname, 0, 5, 0, 0, lt);
-  players.push(s);
+  // Check that we dont have any player with the same name
+  const duplicate = players.some(player=>player.number == pname);
+  if (duplicate)
+  {
+    alert ("Duplicate player: "+pname);
+  }
+  else
+  {
+    lt = [];
+    s = new Skater(pname, pname, 0, 5, 0, 0, lt);
+    players.push(s);
+    //console.log("inside add player");
+    //clicks.push(s.incrementLap);
+    refreshPlayers();
+  }
   document.getElementById ("playernumber").value="";
   document.getElementById ("playernumber").focus();
-  //console.log("inside add player");
-  //clicks.push(s.incrementLap);
-  refreshPlayers();
+
 }
 
 function clearPlayerList()
