@@ -163,7 +163,7 @@ function endRace()
 
 function getLapsedTime()
 {
-    return document.getElementById("showtimer").innerHTML;
+    return document.getElementById("spantimer").innerHTML;
 }
 
 function convertSecondsToTime()
@@ -185,7 +185,7 @@ var x = setInterval(function() {
     
   // Find the distance between now and the count down date
   timersecs = now - startTime;
-  document.getElementById("showtimer").innerHTML = convertSecondsToTime();
+  document.getElementById("spantimer").innerHTML = convertSecondsToTime();
 }, 100);
 
 
