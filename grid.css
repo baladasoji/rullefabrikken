@@ -11,8 +11,7 @@ body {
   margin-bottom: 0.5rem;
 }
 [class*="col-"] {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding: 0.25rem;
   background-color: #eeeeee;
   border-color: #dddddd;
   border: 0.2px solid gray ;

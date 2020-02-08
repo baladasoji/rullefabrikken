@@ -49,7 +49,7 @@ class Skater {
   setTotalTime ()
   {
     this.totaltime=timersecs;
-    this.displayabletotaltime = "<h3 align='center'> <span class='badge badge-pill badge-success'>" +  convertSecondsToTime(this.totaltime) + "</span></h3>";
+    this.displayabletotaltime = "<span class='badge badge-pill badge-success' style='font-size:large;'>" +  convertSecondsToTime(this.totaltime) + "</span></h3>";
   }
 
   setLapTime()
@@ -62,7 +62,7 @@ class Skater {
     {
       this.laptimes[this.laps]= timersecs;
     }
-    this.displayablelaptimes += "<span class='badge badge-pill badge-info'>"+ convertSecondsToTime(this.laptimes[this.laps]) + "</span>";
+    this.displayablelaptimes += "<span class='badge badge-pill badge-info' style='font-size:x-small'>"+ convertSecondsToTime(this.laptimes[this.laps]) + "</span>";
   }
 
   // Adding a method to the constructor
@@ -72,7 +72,7 @@ class Skater {
   display()
   {
 
-    return  `<div class="row"> <div class="col-4"><button type="button" class='${buttonclass}' href="#" id=${this.number} ${this.disabled} > ${this.number}  <span class="badge badge-light badge-pill"> ${this.laps} </span>  </button> </div> <div class="col-4"> ${this.displayabletotaltime}  </div> <div class="col-4"> ${this.displayablelaptimes}  </div></div>`;
+    return  `<div class="row"> <div class="col-4"><button type="button" class='${buttonclass}' href="#" id=${this.number} ${this.disabled} > ${this.number}  <span class="badge badge-light badge-pill"> ${this.laps} </span>  </button> </div> <div class="col-4" style="text-align:center;"> ${this.displayabletotaltime}  </div> <div class="col-4"> ${this.displayablelaptimes}  </div></div>`;
   }
 }
 
