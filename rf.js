@@ -98,6 +98,7 @@ function addPlayer(pname)
     s = new Skater(pname, pname, 0, 5, 0, 0, lt);
     players.push(s);
     document.getElementById ("playernumber").value="";
+    //console.log("inside add player");
     //clicks.push(s.incrementLap);
     refreshPlayers();
 }
@@ -129,6 +130,7 @@ function refreshPlayers()
 {
     
         var row='<div class="container"> ' ;
+	//console.log("inside refresh Players");
 	row = row + '<div class="row"> <div class="col-4 table-header ">Player Bib (Laps) </div><div class="col-4 table-header">Total Time</div><div class="col-4 table-header">Lap timings</div></div>' ;
 	for (var pnum in players )
 	{
