@@ -7,12 +7,12 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Shuttlers Badminton Club Practice sessions</title>
+    <title>Rulleræs timer app</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <!-- Custom styles for this template -->
     <link href="jumbotron.css" rel="stylesheet">
@@ -26,7 +26,7 @@
 
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="#">SBK</a>
+      <a class="navbar-brand" href="#">Rulleræs</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -45,25 +45,26 @@
     <main role="main">
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
-          <h2 class="display-5">Lap Timer Recording</h2>
-          <p>You can use this website to check in and check out of practice sessions and to view the schedule of the day.</p>
-	  <p>The schedules are automatically generated every Friday and Sunday once every 30 minutes based on the number of people checked in. If you need to be in the schedule please ensure that you are checked in atleast 5 mins before the schedule is generated. Schedules are generated at</p>
-        </div>
+          <h2 class="display-5">Race Lap Timer</h2>
+          <p>Use to record lap times and total time for indoor races</p>
+	        <p>Start by adding the players. Click the start race button at the start of the race.</p>
+	        <p>Click on the player number when a lap is complete. Click the end race button to end the race.</p>
 
-        <div class="container">
+      <div class="container-fluid">
 		    <div class="row" id="playerentry">
-		      <div class="col-6"> <input type="text" class="form-control mb-2 mr-sm-2" id="playernumber" placeholder=""> </div>
+		      <div class="col-6"><input type="text" class="form-control mb-2 mr-sm-2" id="playernumber" placeholder=""> </div>
 		      <div class="col-6"><button type="input" class="btn btn-dark btn-block" onClick="addPlayer(playernumber.value)">Add Player</button> </div>
 		    </div>
 		    <div class="row" id="startstoprace">
-		      <div class="col-6"> <button type="input" class="btn btn-success btn-block " onClick="startRace()">Start Race</button> </div>
+		      <div class="col-6"><button type="input" class="btn btn-success btn-block " onClick="startRace()">Start Race</button> </div>
 		      <div class="col-6"><button type="input" class="btn btn-danger btn-block " onClick="endRace()">End Race</button> </div>
 		    </div>
-		    <div id="showtimer"  style="display:none"> <h1 align="center"> <span class="badge badge-dark badge-pill" id="spantimer"> 0:0.0</span> </h1> </div>
-	</div>
-        <div class="container" id="players"> </div> <!-- schedule -->
-        <div class="container" id="results"> </div> <!-- schedule -->
-	</div>
+		    <div id="showtimer" class="mt-2" style="display:none; text-align:center;">
+          <span class="badge badge-dark badge-pill" id="spantimer" style="font-size:x-large;"> 0:0.0</span>
+        </div>
+	    </div>
+      <div class="container-fluid" id="players"> </div> <!-- schedule -->
+      <div class="container-fluid" id="results"> </div> <!-- schedule -->
 
     </main>
   </body>
