@@ -153,7 +153,7 @@ function startRace()
     players.forEach(s => { s.disabled=""; });
     disabled="";
     refreshPlayers();
-    document.getElementByID("showtimer").innerHTML = convertSecondsToTime();
+    document.getElementById("showtimer").innerHTML = convertSecondsToTime();
 }
 
 function endRace()
