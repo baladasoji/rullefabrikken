@@ -152,13 +152,13 @@ function startRace()
     startTime = new Date().getTime();
     players.forEach(s => { s.disabled=""; });
     disabled="";
+    document.getElementByID("showtimer").style.display="block";
     refreshPlayers();
-    document.getElementById("showtimer").innerHTML = convertSecondsToTime();
 }
 
 function endRace()
 {
-    document.getElementByID("disptimer").style.display="none";
+    document.getElementByID("showtimer").style.display="none";
 }
 
 function getLapsedTime()
@@ -185,7 +185,7 @@ var x = setInterval(function() {
     
   // Find the distance between now and the count down date
   timersecs = now - startTime;
-    
+  document.getElementById("showtimer").innerHTML = convertSecondsToTime();
 }, 100);
 
 
