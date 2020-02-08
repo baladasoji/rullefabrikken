@@ -163,7 +163,7 @@ function endRace()
 
 function getLapsedTime()
 {
-    return document.getElementById("demo").innerHTML;
+    return document.getElementByID("demo").innerHTML;
 }
 
 function convertSecondsToTime()
