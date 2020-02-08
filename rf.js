@@ -152,18 +152,18 @@ function startRace()
     startTime = new Date().getTime();
     players.forEach(s => { s.disabled=""; });
     disabled="";
-    document.getElementByID("showtimer").style.display="block";
+    document.getElementById("showtimer").style.display="block";
     refreshPlayers();
 }
 
 function endRace()
 {
-    document.getElementByID("showtimer").style.display="none";
+    document.getElementById("showtimer").style.display="none";
 }
 
 function getLapsedTime()
 {
-    return document.getElementByID("demo").innerHTML;
+    return document.getElementById("showtimer").innerHTML;
 }
 
 function convertSecondsToTime()
