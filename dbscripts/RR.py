@@ -10,7 +10,7 @@ def convert_csv_to_json_list(file):
           '''print (row)'''
           data = {}
           for k in row.keys():
-            if ( k == 'id'):
+            if ( k == 'id' or k == 'eventid'):
                data[k] = int(row[k])
             else:
                data[k] = row[k]
@@ -32,10 +32,20 @@ def count_Table(tname):
    items = response['Items']
    print((items))
 
-def clean_Table(tname):
+'''
+Method to cleanup the tables
+First paramenter is the name of the table
+Second parameter is the eventid
+If eventid is 0 then it cleans up the whole table
+Else only the selected events are cleaned
+'''
+def clean_Table(tname,eventid):
    dynamodb = boto3.resource('dynamodb')
    db = dynamodb.Table(tname)
-   response = db.scan(FilterExpression=Attr('id').gt(0))
+   if (eventid == 0):
+      response = db.scan(FilterExpression=Attr('id').gt(0))
+   else:
+      response = db.scan(FilterExpression=Attr('id').gt(0) and Attr('eventid').eq(eventid))
    items = response['Items']
    for item in items:
       db.delete_item(Key={'id':item.get('id')})
@@ -46,16 +56,25 @@ def load_Table(tname):
    batch_write(tname,json_data)
 
 def clean_and_reload_RR():
-   clean_Table('RREvents')
-   clean_Table('RRRaces')
-   clean_Table('RRPlayers')
+   clean_Table('RREvents',0)
+   clean_Table('RRRaces',0)
+   clean_Table('RRPlayers',0)
    ''' Not sure if we should clean the results
-   clean_Table('RRResults')
+   clean_Table('RRResults',0)
    '''
    load_Table('RREvents')
    load_Table('RRRaces')
    load_Table('RRPlayers')
     
+def cleanup_Event(eventid):
+   clean_Table('RRRaces',eventid)
+   clean_Table('RRPlayers',eventid)
 
 if __name__ == '__main__':
+   '''
    clean_and_reload_RR()
+   count_Table('RRPlayers')
+   ''' 
+   cleanup_Event(1);
+    
+    
