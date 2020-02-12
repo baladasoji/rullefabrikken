@@ -65,7 +65,17 @@ def clean_and_reload_RR():
    load_Table('RREvents')
    load_Table('RRRaces')
    load_Table('RRPlayers')
-    
+   
+def my_test():
+   dynamodb = boto3.resource('dynamodb')
+   db = dynamodb.Table('RRRaces')
+   response = db.query(KeyConditionExpression=Key('id').eq(1))
+   print (len(response['Items']))
+   print (response['Items'][0].get('eventid'))
+   print (response['Items'][0].get('agegroup'))
+   
+
+ 
 def cleanup_Event(eventid):
    clean_Table('RRRaces',eventid)
    clean_Table('RRPlayers',eventid)
@@ -74,7 +84,8 @@ if __name__ == '__main__':
    '''
    clean_and_reload_RR()
    count_Table('RRPlayers')
-   ''' 
    cleanup_Event(1);
+   '''
+   my_test()
     
     
