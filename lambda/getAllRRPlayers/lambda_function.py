@@ -15,22 +15,22 @@ def lambda_handler(event, context):
     raceid = get_qp_asinteger(event,'raceid')
     if raceid is not None:
         racetable = dynamodb.Table('RRRaces')
-        response = table.query(KeyConditionExpression=Key('id').eq(raceid))
-        if (len(response['Items']).eq(1)):
+        response = racetable.query(KeyConditionExpression=Key('id').eq(raceid))
+        if (len(response['Items']) == 1):
             eventid = response['Items'][0].get('eventid')
-            agegroup = response['Items'][0].get('agegroup'))
+            agegroup = response['Items'][0].get('agegroup')
+            logger.info ("Eventid from races is "+str(eventid))
+            logger.info ("agegroup from races is "+agegroup)
             if (eventid is not None and agegroup is not None) :
-                response = table.scan(FilterExpression=Attr('eventid').eq(eventid) and Attr('agegroup').eq(agegroup))
+                response = table.scan(FilterExpression= (Attr('eventid').eq(eventid) & Attr('agegroup').eq(agegroup)))
             else :
                 ''' Try to find a case which is never satisfied to return empty response '''
                 response = table.scan(FilterExpression=Attr('eventid').gt(1000))
         else :
             ''' Try to find a case which is never satisfied to return empty response '''
             response = table.scan(FilterExpression=Attr('eventid').gt(1000))
-    ''' If we need to filter on event id we do so '''
-    else if eventid is not None:
+    elif eventid is not None :
         response = table.scan(FilterExpression=Attr('eventid').eq(eventid))
-    ''' No filtering clause returns all players '''
     else :
         response = table.scan(FilterExpression=Attr('id').gt(0))
     allitems = response['Items']
@@ -51,4 +51,3 @@ def get_qp(event,qp):
     if event.get('params') is not None :
         qpid=event.get('params').get('querystring').get(qp)
     return qpid
-''' Returns an evenid in integer form '''
