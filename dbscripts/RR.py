@@ -81,11 +81,11 @@ def cleanup_Event(eventid):
    clean_Table('RRPlayers',eventid)
 
 if __name__ == '__main__':
-   '''
    clean_and_reload_RR()
+   '''
    count_Table('RRPlayers')
    cleanup_Event(1);
-   '''
    my_test()
+   '''
     
     
