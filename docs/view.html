@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="view.css">
     <script type="text/javascript" src="view.js"></script>
   </head>
 
@@ -16,11 +17,24 @@
 
   <main role="main"> 
       <div class="container">
-            <table id="rrevents">
+           <div class="d-flex align-items-center p-3 my-3 bg-purple rounded shadow-sm" style=" color: white; background-color: purple; ">
+              <i class="fas fa-skating fa-5x"></i> 
+              <h2 style="align:center">Rulleraes Events</h2>
+           </div>
+           <table id="rrevents" data-sortable=true><thead class="thead-dark"/> </table>
+
+           <div class="d-flex align-items-center p-3 my-3 bg-purple rounded shadow-sm" style=" color: white; background-color: purple; ">
+              <i class="fas fa-skating fa-5x"></i> 
+              <h2 style="align:center">Races</h2>
+           </div>
+           <table id="rrraces" data-sortable=true><thead class="thead-dark"/> </table>
             </table>
-            <table id="rrraces">
-            </table>
-            <table id="rrplayers">
+
+           <div class="d-flex align-items-center p-3 my-3 bg-purple rounded shadow-sm" style=" color: white; background-color: purple; ">
+              <i class="fas fa-skating fa-5x"></i> 
+              <h2 style="align:center">Skaters</h2>
+           </div>
+           <table id="rrplayers" data-sortable=true><thead class="thead-dark"/> </table>
             </table>
       </div>
    </main>

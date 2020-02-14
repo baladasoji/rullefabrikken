@@ -1,0 +1,10 @@
+body {
+        margin: 20px;
+    }
+    .table-header{
+        margin-top: 1rem;
+        font-size: 120%;
+        background-color: #333333;
+        color: #ffffff;
+	text-align: center;
+    }
