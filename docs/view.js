@@ -81,9 +81,6 @@ function getRaces()
          $('#rrraces').on('click-row.bs.table', function (e, row, $element) {
             raceid=row.id;         
             getPlayers();
-         $('#rrraces').on('click-cell.bs.table', function (field, value, row, $element) {
-            raceid=row.id;         
-            getPlayers();
          document.getElementById("rrplayers").scrollIntoView();
           })
     }, 1500);
