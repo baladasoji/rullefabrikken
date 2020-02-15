@@ -16,6 +16,7 @@
     <link href="jumbotron.css" rel="stylesheet">
     <link href="grid.css" rel="stylesheet">
     <link href="courts.css" rel="stylesheet">
+    <link href="mytable.css" rel="stylesheet">
     <script type="text/javascript" src='race.js'></script>
   </head>
 
@@ -44,26 +45,32 @@
       <!-- Main jumbotron for a primary marketing message or call to action -->
           <h2 class="display-5">Race Lap Timer</h2>
           <p>Use to record lap times and total time for indoor races</p>
-	        <p>Start by adding the players. Click the start race button at the start of the race.</p>
+	        <p>Start by choosing the race number
 	        <p>Click on the player number when a lap is complete. Click the end race button to end the race.</p>
-        <div class="container-fluid mb-1 dropdown">
-          <a class="btn btn-block btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Vælg Løb Nr
-          </a>
-
-          <div class="dropdown-menu mt-1" id="racesdd" aria-labelledby="dropdownMenuLink">
-          </div>
+      <div class="container-fluid mb-1 dropdown">
+        <a class="btn btn-block btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Vælg Løb Nr
+        </a>
+        <div class="dropdown-menu mt-1" id="racesdd" aria-labelledby="dropdownMenuLink">
         </div>
-      <div class="container-fluid mb-1 mt-1"> <table id="raceinfo"><thead class="thead-dark"></table> </div>
-      <div class="container-fluid" id="raceactions"> </div>
+      </div>
+
+
+      <div class="d-flex justify-content-center ">
+        <div class="spinner-border" role="status" id="waiting" style="display:none">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div class="container-fluid mt-1"> <table id="raceinfo"></table> </div>
+      <div class="container-fluid mt-1" id="raceactions"> </div>
       <div class="container-fluid">
 		    <div id="showtimer" class="mt-2" style="display:none; text-align:center;">
           <span class="badge badge-dark badge-pill" id="spantimer" style="font-size:x-large;"> 0:0.0</span>
         </div>
 	    </div>
       <div class="container-fluid" id="players"> </div> <!-- schedule -->
-      <div class="container-fluid" > <table id="results"> <thead class="thead-dark"> </thead><table> </div>
-      <div class="container-fluid" id="resultactions" > </div>
+      <div class="container-fluid mt-3" > <table id="results"></thead><table> </div>
+      <div class="container-fluid mt-1" id="resultactions" > </div>
 
     </main>
 

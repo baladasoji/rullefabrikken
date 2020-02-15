@@ -81,7 +81,8 @@ class Skater {
     jobj.name = this.name;
     jobj.number = this.number;
     jobj.displayabletime = convertSecondsToTime(this.totaltime);
-    jobj.laptimes = this.laptimes;
+    jobj.laptimes = [];
+    this.laptimes.forEach(p => {jobj.laptimes.push(convertSecondsToTime(p));});
     jobj.finished = !this.DNF;
     return jobj;
   }
@@ -127,7 +128,7 @@ function addPlayer(pinfo,raceinfo)
 
 function clearResults()
 {
-    results=[];
+    result=[];
     document.getElementById("results").innerHTML = "";
 
 }
@@ -162,15 +163,22 @@ function prepareResults()
   {field:'name', title:'Name'},
   {field:'displayabletime', title:'Time'},
   {field:'laptimes', title:'Laps'},
-  {field:'finished', title:'DNF'} ];
-  result.sort(function(a,b) { return a.totaltime - b.totaltime; });
+  {field:'finished', title:'Finished'} ];
+  result.sort(function(a,b) {
+         if ( a.laps == b.laps)
+            return a.totaltime - b.totaltime;
+         else
+            return b.laps - a.laps;
+            //return a.totaltime - b.totaltime;
+          });
   // Set the position after sorting
   for (i=0 ; i<result.length; i++ )
   {
     result[i].position=i+1;
   }
   $('#results').bootstrapTable({columns:resultcols, data:result});
-  var row = ` <div class="row"> <div class="col-6  "> <a class="btn btn-block btn-secondary btn-checkout" href="#unknown" onClick=saveResults()  role="button"> Save Results </a>  </div><div class="col-6 ">  <a class="btn btn-block btn-secondary btn-checkout" href="#unknown" onClick='discardResults()'  role="button"> Discard Results</a>  </div></div>` ;
+  $('#results').bootstrapTable('refreshOptions', { theadClasses:'thead-dark', classes: 'table table-bordered table-hover table-striped'});
+  var row = ` <div class="row"> <div class="col-6  "> <a class="btn btn-block btn-success" href="#unknown" onClick=saveResults()  role="button"> Save Results </a>  </div><div class="col-6 ">  <a class="btn btn-block btn-danger" href="#unknown" onClick='discardResults()'  role="button"> Discard Results</a>  </div></div>` ;
   document.getElementById('resultactions').innerHTML = row;
 
 
@@ -226,11 +234,12 @@ function populateRaces()
 
 function buildRaceMenu(row,r)
 {
-  return `<a class="dropdown-item" id="race${r.id}" href="#">${r.name} - ${r.laps}</a>` ;
+  return `<a class="dropdown-item" id="race${r.id}" href="#"> ${r.id} - ${r.name} (${r.laps})</a>` ;
 }
 
 function showRaceInfo(num)
 {
+  clearPlayerList();
   raceinfo = allraces[num-1];
   var row='' ;
   raceinfocols=[ {field:'id', title:'ID'},
@@ -239,10 +248,18 @@ function showRaceInfo(num)
   var arraywrap=[];
   arraywrap[0] = raceinfo;
   $('#raceinfo').bootstrapTable({columns:raceinfocols, data:arraywrap});
+  $('#raceinfo').bootstrapTable('refreshOptions', { theadClasses:'thead-dark', classes: 'table table-bordered table-hover table-striped'});
   //console.log("inside refresh Players");
 //  row = `<div class="row"> <div class="col-4  "> ${raceinfo.name} </div><div class="col-4 ">${raceinfo.laps}</div><div class="col-4 ">${raceinfo.id}</div> </div>` ;
-  row = ` <div class="row"> <div class="col-4  "> <a class="btn btn-block btn-secondary btn-checkout" href="#unknown" onClick=getPlayersForRace(${raceinfo.id})  role="button"> Get Players </a>  </div><div class="col-4 ">  <a class="btn btn-block btn-secondary btn-checkout" href="#unknown" onClick='startRace()'  role="button"> Start Race</a>  </div><div class="col-4 "> <a class="btn btn-block btn-secondary btn-checkout" href="#unknown" onClick=endRace()  role="button"> End Race </a>  </div></div>` ;
+  row = ` <div class="row"><div class="col-6 ">  <a class="btn btn-block btn-success" href="#unknown" onClick='startRace()'  role="button"> Start Race</a>  </div><div class="col-6 "> <a class="btn btn-block btn-danger" href="#unknown" onClick=endRace()  role="button"> End Race </a>  </div></div>` ;
   document.getElementById('raceactions').innerHTML = row;
+  document.getElementById('results').innerHTML = "";
+  document.getElementById('resultactions').innerHTML = "";
+  document.getElementById("waiting").style.display = "block";
+  getPlayersForRace(raceinfo.id);
+  var x = setInterval(function() {
+  document.getElementById("waiting").style.display = "none";
+}, 2500);
 }
 function startRace()
 {
@@ -256,6 +273,7 @@ function startRace()
 function endRace()
 {
   document.getElementById("showtimer").style.display="none";
+  document.getElementById("raceactions").innerHTML="";
   prepareResults();
   clearPlayerList();
 }
