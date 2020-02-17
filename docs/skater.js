@@ -9,11 +9,14 @@ class Skater {
     this.totallaps=totallaps;
     this.starttime = starttime;
     this.totaltime = totaltime;
+    this.prevtotaltime = totaltime;
     this.laptimes=laptimes;
     this.displayabletotaltime='';
     this.displayablelaptimes='';
     this.DNF=true;
+    this.DNS=true;
     this.disabled="disabled";
+    this.buttonclass='btn btn-primary btn-lg btn-block';
   }
 
   setStarttime(starttime) {
@@ -24,44 +27,55 @@ class Skater {
     this.laps = laps ;
   }
 
-  incrementLap()
-  {
-    this.laps++ ;
-    if (this.laps == this.totallaps)
-    {
-      this.DNF = false;
-      this.disabled = "disabled" ;
-    }
-    //console.log("incrementing the laps" + this.laps);
+  incrementLap()  {
     this.setTotalTime();
     this.setLapTime();
+    // Increment the laps after setting the totaltime and laptimes
+    // Remember that arrays start with zero index.
+    this.laps++ ;
+    // If they complete atleast one lap then DNS should be false
+    this.DNS=false;
+    if (this.laps == this.totallaps)    {
+      // If they complete all the laps then set DNF to false
+      this.DNF = false;
+      this.disabled = "disabled" ;
+      this.buttonclass='btn btn-secondary btn-lg btn-block';
+    }
+    //console.log("incrementing the laps" + this.laps);
   }
 
-  setTotalTime ()
-  {
+  decrementLap()  {
+    // Increment the laps after setting the totaltime and laptimes
+    // Remember that arrays start with zero index.
+    this.laps-- ;
+    // If they complete atleast one lap then DNS should be false
+    if (this.laps == 0)
+    this.DNS=true;
+    this.DNF=true;
+    this.disabled="";
+    this.buttonclass='btn btn-primary btn-lg btn-block';
+  }
+
+  setTotalTime ()  {
+    this.prevtotaltime = this.totaltime;
     this.totaltime=timersecs;
     this.displayabletotaltime = "<span class='badge badge-pill badge-success' style='font-size:large;'>" +  convertSecondsToTime(this.totaltime) + "</span></h3>";
   }
 
-  setLapTime()
-  {
-    if (this.laps > 1)
-    {
-      this.laptimes[this.laps-1] = timersecs - this.laptimes[this.laps-2];
-    }
-    else
-    {
-      this.laptimes[this.laps-1]= timersecs;
-    }
-    this.displayablelaptimes += "<span class='badge badge-pill badge-info' style='font-size:x-small'>"+ convertSecondsToTime(this.laptimes[this.laps]) + "</span>";
-  }
-  display()
-  {
+  setLapTime()  {
+    this.laptimes[this.laps] = timersecs; // - this.prevtotaltime;
 
-    return  `<div class="row"> <div class="col-4"><button type="button" class='${buttonclass}' href="#" id=${this.number} ${this.disabled} > ${this.number}  <span class="badge badge-light badge-pill"> ${this.laps} </span>  </button> </div> <div class="col-4" style="text-align:center;"> ${this.displayabletotaltime}  </div> <div class="col-4"> ${this.displayablelaptimes}  </div></div>`;
+    this.displayablelaptimes = "<span class='badge badge-pill badge-info' style='font-size:x-small'>"+ convertSecondsToTime(this.laptimes[0]) + "</span>";
+    for (i = 1; i <= this.laps; i++) {
+      this.displayablelaptimes += "<span class='badge badge-pill badge-info' style='font-size:x-small'>"+ convertSecondsToTime(this.laptimes[i] - this.laptimes[i-1]) + "</span>";
+    }
   }
-  getResultJson()
-  {
+
+  display()  {
+    return  `<div class="row"> <div class="col-4"><button type="button" class="${this.buttonclass}" href="#" id=${this.number} ${this.disabled} > ${this.number}  <span class="badge badge-light badge-pill"> ${this.laps} </span>  </button> </div> <div class="col-2" style="text-align:center;"> ${this.displayabletotaltime}  </div> <div class="col-4"> ${this.displayablelaptimes}  </div> <div class="col-2"><button type="button" class="btn-danger ${this.buttonclass}" href="#" id=adj${this.number} ${this.disabled}> &#8595; </button> </div></div>`;
+  }
+
+  getResultJson()  {
     var jobj = {};
     jobj.totaltime = this.totaltime;
     jobj.laps = this.laps;
@@ -69,7 +83,15 @@ class Skater {
     jobj.number = this.number;
     jobj.displayabletime = convertSecondsToTime(this.totaltime);
     jobj.laptimes = [];
-    this.laptimes.forEach(p => {jobj.laptimes.push(convertSecondsToTime(p));});
+    for (i=0; i< this.laps; i++)    {
+      if (i==0) {
+        jobj.laptimes.push(convertSecondsToTime(this.laptimes[i]));
+      }
+      else {
+        jobj.laptimes.push(convertSecondsToTime(this.laptimes[i] - this.laptimes[i-1]));
+      }
+    }
+//    this.laptimes.forEach(p => {jobj.laptimes.push(convertSecondsToTime(p));});
     jobj.finished = !this.DNF;
     return jobj;
   }

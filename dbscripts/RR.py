@@ -10,7 +10,7 @@ def convert_csv_to_json_list(file):
           '''print (row)'''
           data = {}
           for k in row.keys():
-            if ( k == 'id' or k == 'eventid'):
+            if ( k == 'id' or k == 'eventid' or k=='bib' or k=='age'):
                data[k] = int(row[k])
             else:
                data[k] = row[k]
@@ -87,5 +87,3 @@ if __name__ == '__main__':
    cleanup_Event(1);
    my_test()
    '''
-    
-    

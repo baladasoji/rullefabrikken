@@ -121,6 +121,10 @@ function incrementPlayerLap(pnum) {
   players[pnum].incrementLap();
   refreshPlayers();
 }
+function decrementPlayerLap(pnum) {
+  players[pnum].decrementLap();
+  refreshPlayers();
+}
 
 function updatePlayers(playerinfo) {
    console.log(playerinfo);
@@ -139,7 +143,7 @@ function addPlayer(pinfo,raceinfo) {
     lt = [];
     s = new Skater(pinfo.bib, pinfo.firstname, 0, raceinfo.laps, 0, 0, lt);
     players.push(s);
-    refreshPlayers();
+//    refreshPlayers();
   }
 }
 
@@ -147,7 +151,7 @@ function refreshPlayers() {
 
   var row='' ;
   //console.log("inside refresh Players");
-  row = '<div class="row"> <div class="col-4 table-header ">Player Bib (Laps) </div><div class="col-4 table-header">Total Time</div><div class="col-4 table-header">Lap timings</div></div>' ;
+  row = '<div class="row"> <div class="col-4 table-header ">Player Bib (Laps) </div><div class="col-2 table-header">Total Time</div><div class="col-4 table-header">Lap times</div> <div class="col-2 table-header">Adjust Laps</div></div>' ;
   for (var pnum in players )
   {
     row = row + players[pnum].display();
@@ -160,6 +164,8 @@ function refreshPlayers() {
     //console.log("Am i here "+ players[pm].number);
     element1=document.getElementById(players[pm].number);
     element1.setAttribute('onclick', `incrementPlayerLap(${pm})`);
+    element2=document.getElementById("adj"+players[pm].number);
+    element2.setAttribute('onclick', `decrementPlayerLap(${pm})`);
   }
 }
 
@@ -190,6 +196,7 @@ function showRaceInfo(num) {
   var arraywrap=[];
   arraywrap[0] = raceinfo;
   $('#raceinfo').bootstrapTable({columns:raceinfocols, data:arraywrap});
+  $('#raceinfo').bootstrapTable('load',arraywrap);
   $('#raceinfo').bootstrapTable('refreshOptions', { theadClasses:'thead-dark', classes: 'table table-bordered table-hover table-striped'});
   //console.log("inside refresh Players");
   row = ` <div class="row"><div class="col-6 ">  <a class="btn btn-block btn-success" href="#unknown" onClick='startRace()'  role="button"> Start Race</a>  </div><div class="col-6 "> <a class="btn btn-block btn-danger" href="#unknown" onClick=endRace()  role="button"> End Race </a>  </div></div>` ;
@@ -206,7 +213,7 @@ function showRaceInfo(num) {
 function startRace() {
   startTime = new Date().getTime();
   players.forEach(s => { s.disabled=""; });
-  disabled="";
+  //disabled="";
   document.getElementById("showtimer").style.display="block";
   refreshPlayers();
 }
