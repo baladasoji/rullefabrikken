@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Rulle Ræs</title>
+		<title>Rulle Ræs Administration</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -22,7 +22,7 @@
 
 							<!-- Logo -->
 								<a href="index.html" class="logo">
-									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Phantom</span>
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Rulleræs</span>
 								</a>
 
 							<!-- Nav -->
@@ -39,10 +39,10 @@
 					<nav id="menu">
 						<h2>Menu</h2>
 						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="view.html">Race info</a></li>
-							<li><a href="generic.html">Live results</a></li>
-							<li><a href="generic.html">Results</a></li>
+							<li><a href="admin.html">Home</a></li>
+							<li><a href="login.html">Login</a></li>
+							<li><a href="radmin.html">Race Admin</a></li>
+							<li><a href="resadmin.html">Result Admin</a></li>
 						</ul>
 					</nav>
 
@@ -50,44 +50,33 @@
 					<div id="main">
 						<div class="inner">
 							<header>
-								<h1>Welcome to Rulle Ræs</h1>
+								<h1>Rulleræs Administration</h1>
 							</header>
-							<section class="tiles">
-								<article class="style2">
-									<span class="image">
-										<img src="images/pic02.jpg" alt="" />
-									</span>
-									<a href="view.html">
-										<h1>Race Info</h1>
-										<div class="content">
-											<p>See the list of todays races and participants</p>
+							<section>
+									<h2>Form</h2>
+									<form method="post" action="#">
+										<div class="row gtr-uniform">
+											<div class="col-6 col-12-xsmall">
+												<input type="password" name="rrcode" id="rrcode" value="" placeholder="password">
+											</div>
+											<div class="col-6">
+												<select name="eventchooser" id="rrevent">
+													<option value="">- Event -</option>
+													<option value="1">Norregard</option>
+													<option value="2">Brøndby</option>
+													<option value="3">Slagelse</option>
+													<option value="4">Hjørring</option>
+												</select>
+											</div>
+											<div class="col-12">
+												<ul class="actions">
+													<li><input type="button" value="Login" class="primary" onclick="saveToken()"></li>
+													<li><input type="reset" value="Reset"></li>
+												</ul>
+											</div>
 										</div>
-									</a>
-								</article>
-								<article class="style4">
-									<span class="image">
-										<img src="images/pic04.jpg" alt="" />
-									</span>
-									<a href="live.html">
-										<h1>Live Results</h1>
-										<div class="content">
-											<p>Follow a live race</p>
-										</div>
-									</a>
-								</article>
-								<article class="style3">
-									<span class="image">
-										<img src="images/pic03.jpg" alt="" />
-									</span>
-									<a href="results.html">
-										<h1>Results</h1>
-										<div class="content">
-											<p>See the completed race results.</p>
-										</div>
-									</a>
-								</article>
+									</form>
 							</section>
-						</div>
 					</div>
 
 			<!-- Footer -->
@@ -107,6 +96,7 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="login.js"></script>
 
 	</body>
 </html>

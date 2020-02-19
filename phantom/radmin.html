@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Rulle Ræs</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="courts.css" />
+		<link rel="stylesheet" href="jumbotron.css" />
+		<link rel="stylesheet" href="grid.css" />
+		<link rel="stylesheet" href="view.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+
+<body class="" onload="apiGetRacesForEvent(1)">
+  <!-- Wrapper -->
+    <div id="wrapper">
+
+      <!-- Header -->
+        <header id="header">
+          <div class="inner">
+
+            <!-- Logo -->
+              <a href="admin.html" class="logo">
+                <span class="title">Rulleræs</span>
+              </a>
+
+          </div>
+        </header>
+
+        <!-- Main -->
+          <div id="main">
+            <div class="inner">
+              <header>
+                <h1>Race timer</h1>
+                  <p>Use to record lap times and total time for indoor races</p>
+        	        <p>Start by choosing the race number
+        	        <p>Click on the player number when a lap is complete. Click the end race button to end the race.</p>
+              </header>
+
+              <div class="container-fluid mb-1 dropdown">
+                <a class="btn btn-block btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Vælg Løb Nr
+                </a>
+                <div class="dropdown-menu mt-1" id="racesdd" aria-labelledby="dropdownMenuLink">
+                </div>
+              </div>
+
+
+              <div class="d-flex justify-content-center ">
+                <div class="spinner-border" role="status" id="waiting" style="display:none">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+              <div class="container-fluid mt-1"> <table id="raceinfo"></table> </div>
+              <div class="container-fluid mt-1" id="raceactions"> </div>
+              <div class="container-fluid">
+        		    <div id="showtimer" class="mt-2" style="display:none; text-align:center;">
+                  <span class="badge badge-dark badge-pill" id="spantimer" style="font-size:x-large;"> 0:0.0</span>
+                </div>
+        	    </div>
+              <div class="container-fluid" id="players"> </div> <!-- schedule -->
+              <div class="container-fluid mt-3" > <table id="results"></thead><table> </div>
+              <div class="container-fluid mt-1" id="resultactions" > </div>
+            </div>
+          </div>
+
+        <!-- Footer -->
+    </div>
+
+<!-- Scripts -->
+<script src="radmin.js"></script>
+<script src="skater.js"></script>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+
+</body>
+</html>
