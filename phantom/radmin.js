@@ -1,5 +1,6 @@
 var rr_api_url="https://cqvn88ysje.execute-api.eu-west-1.amazonaws.com/test"
 var raceid=1;
+var access_token='';
 var eventid=1;
 //var players;
 var players = [];
@@ -13,6 +14,7 @@ var allraces = [];
 var result = [];
 var timersecs=0;
 var api_timeout=2500;
+var safety_cooldown=5000;
 var buttonclass='btn btn-primary btn-lg btn-block';
 var disabled="disabled";
 
@@ -26,8 +28,11 @@ function getURLParameter(name) {
 
 function initializeApp(){
   // Write initialization code here
-  eventid = getURLParameter("eventid");
-  raceid = getURLParameter("raceid");
+  if (sessionStorage.access_token != null)
+    access_token = sessionStorage.access_token;
+  if (sessionStorage.eventid != null)
+    eventid = sessionStorage.eventid;
+  apiGetRacesForEvent(eventid);
 }
 
 function showbadges(val) {
@@ -84,7 +89,7 @@ function saveResults() {
   // Call API to save results;
 }
 
-function discardResults() {
+function finishRace() {
   // Cleanup stuff and start fresh
 }
 
@@ -120,7 +125,7 @@ function prepareResults() {
   }
   $('#results').bootstrapTable({columns:resultcols, data:result});
   $('#results').bootstrapTable('refreshOptions', { theadClasses:'thead-dark', classes: 'table table-bordered table-hover table-striped'});
-  var row = ` <div class="row"> <div class="col-6  "> <a class="btn btn-block btn-success" href="#unknown" onClick=saveResults()  role="button"> Save Results </a>  </div><div class="col-6 ">  <a class="btn btn-block btn-danger" href="#unknown" onClick='discardResults()'  role="button"> Discard Results</a>  </div></div>` ;
+  var row = ` <div class="row"> <div class="col-6  "> <a class="btn btn-block btn-success" href="#unknown" onClick=saveResults()  role="button"> Save Results </a>  </div><div class="col-6 ">  <a class="btn btn-block btn-danger" href="#unknown" onClick='finishRace()'  role="button"> Finish Race</a>  </div></div>` ;
   document.getElementById('resultactions').innerHTML = row;
 }
 
@@ -133,7 +138,7 @@ function incrementPlayerLap(pnum) {
   setTimeout(function(){
       players[pnum].enableButton();
        refreshPlayers();
-  },10000);
+  },safety_cooldown);
 
 }
 function decrementPlayerLap(pnum) {
@@ -142,7 +147,7 @@ function decrementPlayerLap(pnum) {
 }
 
 function updatePlayers(playerinfo) {
-   console.log(playerinfo);
+   //console.log(playerinfo);
    playerinfo.forEach(p => { addPlayer(p,raceinfo); });
    refreshPlayers();
 }
@@ -188,17 +193,17 @@ function refreshPlayers() {
 /*********** Race Functions  *******************/
 function populateRaces() {
   var row='' ;
-  console.log("races is "+ allraces);
   allraces.forEach(r => { row += buildRaceMenu(row,r);});
-  console.log("row is "+ row);
+  //console.log("row is "+ row);
   document.getElementById('racesdd').innerHTML = row;
   i=1;
-  allraces.forEach(r => { (document.getElementById(`race${i}`)).setAttribute('onclick', `showRaceInfo(${i})`); i++; console.log(r) ;});
+  allraces.forEach(r => { (document.getElementById(`race${i}`)).setAttribute('onclick', `showRaceInfo(${i})`); i++; });
 
 }
 
 function buildRaceMenu(row,r) {
-  return `<a class="dropdown-item" id="race${r.id}" href="#"> ${r.id} - ${r.name} (${r.laps})</a>` ;
+  disabled = (r.status == "finished")?"disabled":"";
+  return `<a class="dropdown-item ${disabled}" id="race${r.id}" href="#"> ${r.id} - ${r.name} (${r.laps})</a>` ;
 }
 
 function showRaceInfo(num) {
@@ -275,14 +280,12 @@ function apiGetRaceInfo(raceid) {
     apiXMLReq.onload = function () {
         if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
           raceinfo = JSON.parse(apiXMLReq.responseText)[0];
+          showRaceInfo(raceinfo);
            // alert('All players checkedout');
         } else {
             alert('Error in getEvents');
         }
     }
-    setTimeout(function(){
-         showRaceInfo(raceinfo);
-    }, api_timeout);
 }
 
 function apiGetPlayersForRace(raceid) {
@@ -294,14 +297,12 @@ function apiGetPlayersForRace(raceid) {
     apiXMLReq.onload = function () {
         if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
           playerinfo = JSON.parse(apiXMLReq.responseText);
+          updatePlayers(playerinfo);
            // alert('All players checkedout');
         } else {
             alert('Error in getEvents');
         }
     }
-    setTimeout(function(){
-         updatePlayers(playerinfo);
-    }, api_timeout);
 }
 
 function apiSaveResult(raceinfo,results)
@@ -317,7 +318,7 @@ function apiSaveResult(raceinfo,results)
   apiXMLReq.onload = function () {
       if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
         res = JSON.parse(apiXMLReq.responseText);
-         // alert('All players checkedout');
+         alert('Result Saved');
       } else {
           alert('Error in Save Results');
       }

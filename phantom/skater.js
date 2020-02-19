@@ -16,7 +16,6 @@ class Skater {
     this.displayablelaptimes='';
     this.DNF=true;
     this.DNS=true;
-    this.disabled="disabled";
     this.buttonclass='btn btn-primary btn-md btn-block disabled';
     this.buttonclassenabled='btn btn-primary btn-md btn-block';
     this.buttonclassdisabled='btn btn-primary btn-md btn-block disabled';
@@ -41,7 +40,6 @@ class Skater {
     if (this.laps == this.totallaps)    {
       // If they complete all the laps then set DNF to false
       this.DNF = false;
-      this.disabled = "disabled" ;
       this.buttonclass='btn btn-secondary btn-md btn-block disabled';
     }
     //console.log("incrementing the laps" + this.laps);
@@ -66,7 +64,6 @@ class Skater {
     if (this.laps == 0)
     this.DNS=true;
     this.DNF=true;
-    this.disabled="";
     this.buttonclass='btn btn-primary btn-md btn-block';
   }
 
@@ -86,7 +83,7 @@ class Skater {
   }
 
   display()  {
-    return  `<div class="row"> <div class="col-4"><a class="${this.buttonclass}" role="button" href="#unknown" id=${this.number} ${this.disabled} > ${this.number}  <span class="badge badge-light badge-pill"> ${this.laps} </span>  </a> </div> <div class="col-2" style="text-align:center;"> ${this.displayabletotaltime}  </div> <div class="col-4"> ${this.displayablelaptimes}  </div> <div class="col-2"><a class="btn-danger ${this.buttonclass}" role="button" href="#unknown" id=adj${this.number} ${this.disabled}> &#8595; </a> </div></div>`;
+    return  `<div class="row"> <div class="col-4"><a class="${this.buttonclass}" role="button" href="#unknown" id=${this.number} > ${this.number}  <span class="badge badge-light badge-pill"> ${this.laps} </span>  </a> </div> <div class="col-2" style="text-align:center;"> ${this.displayabletotaltime}  </div> <div class="col-4"> ${this.displayablelaptimes}  </div> <div class="col-2"><a class="btn btn-danger" role="button" href="#unknown" id=adj${this.number} > &#8595; </a> </div></div>`;
   }
 
   getResultJson()  {
