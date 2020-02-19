@@ -2,21 +2,22 @@
 */
 
 class Skater {
-  constructor(number, name ,laps, totallaps, starttime, totaltime, laptimes) {
+  constructor(id,number, name , totallaps ) {
+    this.id = id;
     this.number = number;
     this.name = name;
-    this.laps = laps;
+    this.laps = 0;
     this.totallaps=totallaps;
-    this.starttime = starttime;
-    this.totaltime = totaltime;
-    this.prevtotaltime = totaltime;
-    this.laptimes=laptimes;
+    this.starttime = 0;
+    this.totaltime = 0;
+    this.prevtotaltime = 0;
+    this.laptimes=[];
     this.displayabletotaltime='';
     this.displayablelaptimes='';
     this.DNF=true;
     this.DNS=true;
     this.disabled="disabled";
-    this.buttonclass='btn btn-primary btn-lg btn-block';
+    this.buttonclass='btn btn-primary btn-md btn-block';
   }
 
   setStarttime(starttime) {
@@ -39,7 +40,7 @@ class Skater {
       // If they complete all the laps then set DNF to false
       this.DNF = false;
       this.disabled = "disabled" ;
-      this.buttonclass='btn btn-secondary btn-lg btn-block';
+      this.buttonclass='btn btn-secondary btn-md btn-block';
     }
     //console.log("incrementing the laps" + this.laps);
   }
@@ -53,7 +54,7 @@ class Skater {
     this.DNS=true;
     this.DNF=true;
     this.disabled="";
-    this.buttonclass='btn btn-primary btn-lg btn-block';
+    this.buttonclass='btn btn-primary btn-md btn-block';
   }
 
   setTotalTime ()  {
@@ -76,24 +77,28 @@ class Skater {
   }
 
   getResultJson()  {
-    var jobj = {};
-    jobj.totaltime = this.totaltime;
-    jobj.laps = this.laps;
-    jobj.name = this.name;
-    jobj.number = this.number;
-    jobj.displayabletime = convertSecondsToTime(this.totaltime);
-    jobj.laptimes = [];
+    var result = {};
+    result.totaltime = this.totaltime;
+    result.laps = this.laps;
+    result.playerid = this.id;
+    result.name = this.name;
+    result.number = this.number;
+    result.displayabletime = this.convertSecondsToTime(this.totaltime);
+    result.laptimes = [];
     for (i=0; i< this.laps; i++)    {
-      if (i==0) {
-        jobj.laptimes.push(convertSecondsToTime(this.laptimes[i]));
-      }
-      else {
-        jobj.laptimes.push(convertSecondsToTime(this.laptimes[i] - this.laptimes[i-1]));
-      }
+      if (i==0)
+        result.laptimes.push("  "+this.convertSecondsToTime(this.laptimes[i]));
+      else
+        result.laptimes.push("  "+this.convertSecondsToTime(this.laptimes[i] - this.laptimes[i-1]));
     }
-//    this.laptimes.forEach(p => {jobj.laptimes.push(convertSecondsToTime(p));});
-    jobj.finished = !this.DNF;
-    return jobj;
+//    this.laptimes.forEach(p => {result.laptimes.push(convertSecondsToTime(p));});
+    if (this.DNS)
+      result.lapstatus = "DNS";
+    else if (this.DNF)
+      result.lapstatus = "DNF"
+    else
+      result.lapstatus = "Finished";
+    return result;
   }
 
   convertSecondsToTime(t=timersecs)
@@ -101,6 +106,10 @@ class Skater {
     var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((t % (1000 * 60)) / 1000);
     var tenths = Math.floor ((t % 1000)/100) ;
-    return `${minutes}:${seconds}.${tenths}`;
+    console.log("minutes is"+minutes)
+    if (minutes == 0)
+      return `${seconds}.${tenths}`;
+    else
+      return `${minutes}:${seconds}.${tenths}`;
   }
 }

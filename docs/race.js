@@ -8,7 +8,7 @@ var laps = [];
 var timers = [] ;
 var laptimers = [];
 var playerdata = [] ;
-var raceinfo = [] ;
+var raceinfo = {} ;
 var allraces = [];
 var result = [];
 var timersecs=0;
@@ -78,6 +78,9 @@ function clearPlayerList() {
 
 /*********** Result   Functions  *******************/
 function saveResults() {
+  console.log("raceinfo is"+ raceinfo);
+  console.log("result is"+ result);
+  apiSaveResult(raceinfo,result);
   // Call API to save results;
 }
 
@@ -95,8 +98,10 @@ function prepareResults() {
      {field:'number', title:'Start Nr.'},
   {field:'name', title:'Name'},
   {field:'displayabletime', title:'Time'},
-  {field:'laptimes', title:'Laps'},
-  {field:'finished', title:'Finished'} ];
+  {field:'laptimes', title:'Lap Times'},
+  {field:'laps', title:'#Laps'},
+  {field:'points', title:'Points'},
+  {field:'lapstatus', title:'Status'} ];
   result.sort(function(a,b) {
          if ( a.laps == b.laps)
             return a.totaltime - b.totaltime;
@@ -108,6 +113,10 @@ function prepareResults() {
   for (i=0 ; i<result.length; i++ )
   {
     result[i].position=i+1;
+    if (result[i].lapstatus == 'DNS')
+      result[i].points=result.length+1;
+    else
+      result[i].points=i+1;
   }
   $('#results').bootstrapTable({columns:resultcols, data:result});
   $('#results').bootstrapTable('refreshOptions', { theadClasses:'thead-dark', classes: 'table table-bordered table-hover table-striped'});
@@ -141,7 +150,7 @@ function addPlayer(pinfo,raceinfo) {
   else {
     // Empty array for lap timers
     lt = [];
-    s = new Skater(pinfo.bib, pinfo.firstname, 0, raceinfo.laps, 0, 0, lt);
+    s = new Skater(pinfo.id, pinfo.bib, pinfo.firstname + " " + pinfo.lastname,raceinfo.laps);
     players.push(s);
 //    refreshPlayers();
   }
@@ -291,5 +300,22 @@ function apiGetPlayersForRace(raceid) {
 
 function apiSaveResult(raceinfo,results)
 {
+  var apiXMLReq = new XMLHttpRequest();
+     apiXMLReq.open("PUT", rr_api_url + '/results' , true );
+     apiXMLReq.setRequestHeader('Content-type', 'application/json');
+  var data={};
+  data.race = raceinfo;
+  data.result = results;
+  console.log("Data is" + data)
+  apiXMLReq.send(JSON.stringify(data));
+  apiXMLReq.onload = function () {
+      if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
+        res = JSON.parse(apiXMLReq.responseText);
+         // alert('All players checkedout');
+      } else {
+          alert('Error in Save Results');
+      }
+  }
+
 
 }
