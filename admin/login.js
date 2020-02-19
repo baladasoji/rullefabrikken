@@ -6,7 +6,7 @@ async function logSha1( str ) {
   const result = Array.from(new Uint8Array(digest)).map( x => x.toString(16).padStart(2,'0') ).join('');
   sessionStorage.access_token = result;
           setTimeout(function(){
-              window.location.href = "admin.html";
+              window.location.href = "index.html";
           }, 1000);
 }
 
