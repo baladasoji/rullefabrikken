@@ -68,9 +68,11 @@ var x = setInterval(function() {
 function clearResults() {
     result=[];
     document.getElementById("results").innerHTML = "";
+    document.getElementById("resultactions").innerHTML = "";
 }
 
 function clearRace() {
+  raceinfo={};
   document.getElementById("raceinfo").innerHTML="";
 }
 
@@ -90,6 +92,13 @@ function saveResults() {
 }
 
 function finishRace() {
+  updateRaceStatus("finished");
+  clearRace();
+  clearResults();
+  // We need to wait before we get races for event to give a chance for race status to be updated
+  var x = setInterval(function() {
+    apiGetRacesForEvent(eventid);
+  }, api_timeout);
   // Cleanup stuff and start fresh
 }
 
@@ -236,6 +245,7 @@ function startRace() {
   //disabled="";
   document.getElementById("showtimer").style.display="block";
   refreshPlayers();
+  updateRaceStatus('in progress');
 }
 
 function endRace() {
@@ -257,14 +267,12 @@ function apiGetRacesForEvent(eventid=1) {
     apiXMLReq.onload = function () {
         if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
           allraces = JSON.parse(apiXMLReq.responseText);
+          populateRaces(allraces);
            // alert('All players checkedout');
         } else {
             alert('Error in getEvents');
         }
     }
-    setTimeout(function(){
-         populateRaces(allraces);
-    }, api_timeout);
 }
 
 
@@ -321,6 +329,25 @@ function apiSaveResult(raceinfo,results)
          alert('Result Saved');
       } else {
           alert('Error in Save Results');
+      }
+  }
+
+
+}
+
+function updateRaceStatus(stat)
+{
+  var apiXMLReq = new XMLHttpRequest();
+     apiXMLReq.open("PUT", rr_api_url + '/races' , true );
+     apiXMLReq.setRequestHeader('Content-type', 'application/json');
+  var data={"raceid": raceinfo.id, "status" :stat};
+  console.log("Data is" + data)
+  apiXMLReq.send(JSON.stringify(data));
+  apiXMLReq.onload = function () {
+      if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
+        res = JSON.parse(apiXMLReq.responseText);
+      } else {
+          alert('Error updating race status');
       }
   }
 
