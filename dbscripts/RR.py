@@ -74,15 +74,20 @@ def my_test():
    print (response['Items'][0].get('eventid'))
    print (response['Items'][0].get('agegroup'))
    
-
+def update_race_status(raceid, stat):
+  client = boto3.resource('dynamodb')
+  db = client.Table("RRRaces")
+  db.update_item(Key= { "id":raceid }, UpdateExpression= 'SET #stat = :label', ExpressionAttributeNames= {"#stat" : "status"},  ExpressionAttributeValues= { ":label": stat } )
+  
  
 def cleanup_Event(eventid):
    clean_Table('RRRaces',eventid)
    clean_Table('RRPlayers',eventid)
 
 if __name__ == '__main__':
-   clean_and_reload_RR()
+   update_race_status(2,'finished')
    '''
+   clean_and_reload_RR()
    count_Table('RRPlayers')
    cleanup_Event(1);
    my_test()

@@ -96,8 +96,9 @@ function finishRace() {
   clearRace();
   clearResults();
   // We need to wait before we get races for event to give a chance for race status to be updated
-  var x = setInterval(function() {
+  var x = setTimeout(function() {
     apiGetRacesForEvent(eventid);
+    apiDeleteLiveResult();
   }, api_timeout);
   // Cleanup stuff and start fresh
 }
@@ -148,6 +149,7 @@ function incrementPlayerLap(pnum) {
       players[pnum].enableButton();
        refreshPlayers();
   },safety_cooldown);
+  apiSaveLiveResult();
 
 }
 function decrementPlayerLap(pnum) {
@@ -352,4 +354,41 @@ function updateRaceStatus(stat)
   }
 
 
+}
+
+function apiSaveLiveResult()
+{
+  var apiXMLReq = new XMLHttpRequest();
+     apiXMLReq.open("PUT", rr_api_url + '/live-results' , true );
+     apiXMLReq.setRequestHeader('Content-type', 'application/json');
+  playerLr = [];
+  players.forEach(p => { playerLr.push ({number:p.number, name:p.name, laps:p.laps, totaltime:p.totaltime, laptimes:p.laptimes}); });
+  var data={};
+  data.raceinfo=raceinfo;
+  data.liveresult=playerLr;
+  console.log("Data is" + data)
+  apiXMLReq.send(JSON.stringify(data));
+  apiXMLReq.onload = function () {
+      if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
+  // We dont care about response        res = JSON.parse(apiXMLReq.responseText);
+      } else {
+          console.log('Error updating live results');
+      }
+  }
+}
+
+function apiDeleteLiveResult()
+{
+  var apiXMLReq = new XMLHttpRequest();
+     apiXMLReq.open("DELETE", rr_api_url + '/live-results' , true );
+     apiXMLReq.setRequestHeader('Content-type', 'application/json');
+  apiXMLReq.send(null);
+  apiXMLReq.onload = function () {
+      if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
+  // We dont care about response        res = JSON.parse(apiXMLReq.responseText);
+          console.log('Deleted live results');
+      } else {
+          console.log('Error deleting live results');
+      }
+  }
 }
