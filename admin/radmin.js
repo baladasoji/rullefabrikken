@@ -248,6 +248,7 @@ function startRace() {
   document.getElementById("showtimer").style.display="block";
   refreshPlayers();
   updateRaceStatus('in progress');
+  apiSaveLiveResult();
 }
 
 function endRace() {
