@@ -236,12 +236,12 @@ function showRaceInfo(num) {
   document.getElementById("waiting").style.display = "block";
   apiGetPlayersForRace(raceinfo.id);
   var x = setTimeout(function() {
-  document.getElementById("waiting").style.display = "none";
-  just_started=true;
-  if (bliveresult)
-    apiSaveLiveResult();
-  }, apitimeout);
-}
+    document.getElementById("waiting").style.display = "none";
+    just_started=true;
+    if (bliveresult)
+      apiSaveLiveResult();
+    }, apitimeout);
+  }
 
 function startRace() {
   startTime = new Date().getTime();
