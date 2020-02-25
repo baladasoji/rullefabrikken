@@ -1,10 +1,6 @@
-var rr_api_url="https://cqvn88ysje.execute-api.eu-west-1.amazonaws.com/test"
-var raceid=1;
-var eventid=1;
 //var players;
 var timersecs=0;
 var played=false;
-var api_timeout=2500;
 var audio = new Audio('bell.mp3');
 
 function populateResults(liveresult)
@@ -16,21 +12,27 @@ function populateResults(liveresult)
             return a.totaltime - b.totaltime;
          else
             return b.laps - a.laps;
-            //return a.totaltime - b.totaltime;
           });
   // Set the position after sorting
-  lapdisplay-= livedata[0].laps;
-  if (lapdisplay == 0 ) {
-	if (!played) {
-		audio.play()
- 		played=true;;
-  	}
+  if (liveresult.juststarted) {
+        played=false;
+        document.getElementById("livelap").innerHTML = '<p style="font-size:600px; margin:-15rem; text-align:center;">'+ lapdisplay+'</p>';
   }
-  else {
-	played=false
+  else{
+      lapdisplay-= (livedata[0].laps+1);
+      if (lapdisplay == -1) lapdisplay++;
+      if (lapdisplay == 0 ) {
+        if (!played) {
+          audio.play()
+          played=true;
+        }
+      }
+      else {
+        played=false
+      }
+
+      document.getElementById("livelap").innerHTML = '<p style="font-size:600px; margin:-15rem; text-align:center;">'+ lapdisplay+'</p>';
   }
-  
-  document.getElementById("livelap").innerHTML = '<p style="font-size:600px; margin:-15rem; text-align:center;">'+ lapdisplay+'</p>';
 }
 
 
@@ -54,4 +56,4 @@ function apiGetLiveResults()
 var x = setInterval(function() {
   // Get today's date and time
   apiGetLiveResults();
-}, 3000);
+}, laprefreshinterval);

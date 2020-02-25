@@ -1,9 +1,5 @@
-var rr_api_url="https://cqvn88ysje.execute-api.eu-west-1.amazonaws.com/test"
-var raceid=1;
-var eventid=1;
 //var players;
 var timersecs=0;
-var api_timeout=2500;
 var resultcols =[
                   {sortable:true,field:'raceid', title:'ID'},
                   {sortable:true,field:'agegroup', title:'Age Group'},
@@ -30,21 +26,13 @@ function getURLParameter(name) {
 }
 
 
-
-function initializeApp(){
-  // Write initialization code here
-  eventid = getURLParameter("eventid");
-  raceid = getURLParameter("raceid");
-}
-
 function populateResults(allresults)
 {
   $('#index').bootstrapTable({columns:resultcols, data:allresults});
   $('#index').bootstrapTable('load',allresults);
   $('#index').bootstrapTable('refreshOptions',{"theadClasses": "thead-light"});
   $('#index').on('click-row.bs.table', function (e, row, $element) {
-     raceid=row.raceid;
-  document.getElementById("res"+raceid).scrollIntoView({behavior: "smooth",block:"start"});
+  document.getElementById("res"+row.raceid).scrollIntoView({behavior: "smooth",block:"start"});
 });
   allresults.forEach(r => { displayResultTable(r);});
 }
@@ -69,19 +57,15 @@ function displayResultTable(r)
 function apiGetResults()
 {
   var apiXMLReq = new XMLHttpRequest();
-     apiXMLReq.open("GET", rr_api_url + '/results' , true );
+     apiXMLReq.open("GET", rr_api_url + '/results?eventid='+ eventid , true );
   apiXMLReq.send(null);
   apiXMLReq.onload = function () {
       if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
         allresults = JSON.parse(apiXMLReq.responseText);
+        populateResults(allresults);
          // alert('All players checkedout');
       } else {
-          alert('Error in Save Results');
+          alert('Error in Get Results');
       }
   }
-  setTimeout(function(){
-       populateResults(allresults);
-  }, api_timeout);
-
-
 }

@@ -1,8 +1,4 @@
-var rr_api_url="https://cqvn88ysje.execute-api.eu-west-1.amazonaws.com/test"
-var raceid=1;
-var access_token='';
-var eventid=1;
-//var players;
+// Ensure that common.js is loaded
 var players = [];
 var clicks = [];
 var laps = [];
@@ -13,8 +9,7 @@ var raceinfo = {} ;
 var allraces = [];
 var result = [];
 var timersecs=0;
-var api_timeout=2500;
-var safety_cooldown=5000;
+var just_started=true;
 var buttonclass='btn btn-primary btn-lg btn-block';
 var disabled="disabled";
 
@@ -28,10 +23,6 @@ function getURLParameter(name) {
 
 function initializeApp(){
   // Write initialization code here
-  if (sessionStorage.access_token != null)
-    access_token = sessionStorage.access_token;
-  if (sessionStorage.eventid != null)
-    eventid = sessionStorage.eventid;
   apiGetRacesForEvent(eventid);
 }
 
@@ -99,7 +90,7 @@ function finishRace() {
   var x = setTimeout(function() {
     apiGetRacesForEvent(eventid);
     apiDeleteLiveResult();
-  }, api_timeout);
+  }, apitimeout);
   // Cleanup stuff and start fresh
 }
 
@@ -134,6 +125,7 @@ function prepareResults() {
       result[i].points=i+1;
   }
   $('#results').bootstrapTable({columns:resultcols, data:result});
+  $('#results').bootstrapTable('load',result);
   $('#results').bootstrapTable('refreshOptions', { theadClasses:'thead-dark', classes: 'table table-bordered table-hover table-striped'});
   var row = ` <div class="row"> <div class="col-6  "> <a class="btn btn-block btn-success" href="#unknown" onClick=saveResults()  role="button"> Save Results </a>  </div><div class="col-6 ">  <a class="btn btn-block btn-danger" href="#unknown" onClick='finishRace()'  role="button"> Finish Race</a>  </div></div>` ;
   document.getElementById('resultactions').innerHTML = row;
@@ -143,22 +135,29 @@ function prepareResults() {
 /*********** Player Functions  *******************/
 function incrementPlayerLap(pnum) {
   players[pnum].incrementLap();
-  players[pnum].disableButton();
-  refreshPlayers();
-  setTimeout(function(){
-      players[pnum].enableButton();
-       refreshPlayers();
-  },safety_cooldown);
-  apiSaveLiveResult();
-
+  if (bcooldown) {
+    players[pnum].disableButton();
+    refreshPlayers();
+    setTimeout(function(){
+        players[pnum].enableButton();
+         refreshPlayers();
+    },cooldowntimeout);
+  }
+  else {
+    refreshPlayers();
+  }
+  if (bliveresult){
+    apiSaveLiveResult();
+  }
 }
+
+
 function decrementPlayerLap(pnum) {
   players[pnum].decrementLap();
   refreshPlayers();
 }
 
 function updatePlayers(playerinfo) {
-   //console.log(playerinfo);
    playerinfo.forEach(p => { addPlayer(p,raceinfo); });
    refreshPlayers();
 }
@@ -236,9 +235,12 @@ function showRaceInfo(num) {
   document.getElementById('resultactions').innerHTML = "";
   document.getElementById("waiting").style.display = "block";
   apiGetPlayersForRace(raceinfo.id);
-  var x = setInterval(function() {
+  var x = setTimeout(function() {
   document.getElementById("waiting").style.display = "none";
-  }, api_timeout);
+  just_started=true;
+  if (bliveresult)
+    apiSaveLiveResult();
+  }, apitimeout);
 }
 
 function startRace() {
@@ -248,7 +250,15 @@ function startRace() {
   document.getElementById("showtimer").style.display="block";
   refreshPlayers();
   updateRaceStatus('in progress');
-  apiSaveLiveResult();
+  just_started=true;
+  if (bliveresult){
+//    apiSaveLiveResult();
+    setTimeout(function(){
+         just_started=false;
+         apiSaveLiveResult();
+    }, starttomiddelay);
+  }
+
 }
 
 function endRace() {
@@ -367,7 +377,8 @@ function apiSaveLiveResult()
   var data={};
   data.raceinfo=raceinfo;
   data.liveresult=playerLr;
-  console.log("Data is" + data)
+  data.juststarted=just_started;
+  console.log("Data is" + JSON.stringify(data));
   apiXMLReq.send(JSON.stringify(data));
   apiXMLReq.onload = function () {
       if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {

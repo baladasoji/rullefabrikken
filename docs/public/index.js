@@ -1,16 +1,5 @@
-function checkToken() {
-access_token=sessionStorage.access_token;
-  if (access_token == null)
-  {
-          setTimeout(function(){
-              window.location.href = "login.html";
-          }, 1000);
-  }
-  else {
-    apiGetConfig();
-  }
-}
-var rr_api_url="https://cqvn88ysje.execute-api.eu-west-1.amazonaws.com/test";
+
+var rr_api_url="https://rr.dasoji.net";
 var eventid=1;
 var apitimeout=2500;
 var cooldowntimeout=2000;
@@ -19,9 +8,9 @@ var bliveresult=false;
 var bcooldown=false;
 var liverefreshinterval=2000;
 var laprefreshinterval=2000;
-var starttomiddelay=15000;
 
-function setOnSession() {
+function setOnSession()
+{
   sessionStorage.eventid=eventid;
   sessionStorage.apitimeout=apitimeout;
   sessionStorage.cooldowntimeout=cooldowntimeout;
@@ -30,12 +19,12 @@ function setOnSession() {
   sessionStorage.bcooldown=bcooldown;
   sessionStorage.liverefreshinterval=liverefreshinterval;
   sessionStorage.laprefreshinterval=laprefreshinterval;
-  sessionStorage.starttomiddelay=starttomiddelay;
 }
 
-function apiGetConfig() {
+function apiGetConfig()
+{
   var apiXMLReq = new XMLHttpRequest();
-  apiXMLReq.open("GET", rr_api_url + '/config' , true );
+     apiXMLReq.open("GET", rr_api_url + '/config' , true );
   apiXMLReq.send(null);
   apiXMLReq.onload = function () {
       if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
@@ -46,8 +35,8 @@ function apiGetConfig() {
         blapcounter=configjs.blapcounter;
         bliveresult=configjs.bliveresult;
         bcooldown=configjs.bcooldown;
-        liveresultrefresh=configjs.liveresultrefresh;
-        starttomiddelay=configjs.starttomiddelay;
+        liverefreshinterval=configjs.liverefreshinterval ;
+        laprefreshinterval=configjs.laprefreshinterval;
         setOnSession();
          // alert('All players checkedout');
       } else {

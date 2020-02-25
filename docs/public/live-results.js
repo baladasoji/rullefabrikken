@@ -1,23 +1,19 @@
-var rr_api_url="https://cqvn88ysje.execute-api.eu-west-1.amazonaws.com/test"
-var raceid=1;
-var eventid=1;
 //var players;
+var liverefreshinterval=sessionStorage.liverefreshinterval!=null ? sessionStorage.liverefreshinterval : 5000;
 var timersecs=0;
-var api_timeout=2500;
 var resultcols =[
-                  {sortable:true,field:'raceid', title:'ID'},
-                  {sortable:true,field:'agegroup', title:'Age Group'},
-                  {sortable:true,field:'eventid', title:'Event ID'},
-                  {sortable:true,field:'laps', title:'Laps'},
-                  {sortable:true,field:'racename', title:'Name'}
+                  {sortable:true,field:'id', title:'#'},
+                  {sortable:true,field:'name', title:'Navn'},
+                  {sortable:true,field:'laps', title:'Omg'},
+                  {sortable:true,field:'agegroup', title:'Aldersgruppe'}
                ];
 var ircols = [
                   {field:'position', title:'#'},
                   {field:'number', title:'Start Nr'},
-                  {field:'name', title:'Name'},
-                  {field:'totaltime', title:'Total time'},
-                  {field: 'laps', title:'Laps'},
-                  {field:'laptimes', title:'Lap time'},
+                  {field:'name', title:'Navn'},
+                  {field:'laps', title:'Omg'},
+                  {field:'totaltime', title:'Brutto tid'},
+                  {field:'displayablelaptimes', title:'Omg tider'},
               ];
 /*********** Utility Functions in the Beginning *******************/
 
@@ -25,14 +21,6 @@ var ircols = [
 * works both with JS style and standard styles */
 function getURLParameter(name) {
   return decodeURIComponent((new RegExp('[?|&|#]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [null, ''])[1].replace(/\+/g, '%20')) || null;
-}
-
-
-
-function initializeApp(){
-  // Write initialization code here
-  eventid = getURLParameter("eventid");
-  raceid = getURLParameter("raceid");
 }
 
 function populateResults(liveresult)
@@ -55,9 +43,14 @@ function populateResults(liveresult)
   {
     livedata[i].position=i+1;
     livedata[i].totaltime = convertSecondsToTime (livedata[i].totaltime);
+    livedata[i].displayablelaptimes=[];
     for (j=0 ; j<livedata[i].laptimes.length; j++ )
     {
-      livedata[i].laptimes[j]= convertSecondsToTime(livedata[i].laptimes[j]) ;
+      if (j==0)
+        livedata[i].displayablelaptimes[j]= convertSecondsToTime(livedata[i].laptimes[j]) ;
+      else {
+        livedata[i].displayablelaptimes[j]= convertSecondsToTime(livedata[i].laptimes[j]-livedata[i].laptimes[j-1]) ;
+      }
     }
   }
   $('#liveres').bootstrapTable({columns:ircols, data:livedata});
@@ -69,7 +62,7 @@ function convertSecondsToTime(t=timersecs) {
   var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
   var seconds = Math.floor((t % (1000 * 60)) / 1000);
   var tenths = Math.floor ((t % 1000)/100) ;
-  return `${minutes}:${seconds}.${tenths}`;
+  return ` ${minutes}:${seconds}.${tenths}`;
 }
 
 function apiGetLiveResults()
@@ -92,4 +85,4 @@ function apiGetLiveResults()
 var x = setInterval(function() {
   // Get today's date and time
   apiGetLiveResults();
-}, 7000);
+}, liverefreshinterval);

@@ -13,7 +13,5 @@ async function logSha1( str ) {
 function saveToken()
 {
   pass= document.getElementById('rrcode').value;
-  eventid = document.getElementById('rrevent').value;
-  sessionStorage.eventid = eventid;
   logSha1(pass);
 }
