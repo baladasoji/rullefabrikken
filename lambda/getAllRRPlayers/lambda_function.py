@@ -34,7 +34,7 @@ def lambda_handler(event, context):
     else :
         response = table.scan(FilterExpression=Attr('id').gt(0))
     allitems = response['Items']
-    '''allitems.sort(key=operator.itemgetter('firstname'))'''
+    allitems.sort(key=operator.itemgetter('bib'))
     return allitems;
 
 def get_qp_asinteger(event,qp):
@@ -51,3 +51,4 @@ def get_qp(event,qp):
     if event.get('params') is not None :
         qpid=event.get('params').get('querystring').get(qp)
     return qpid
+''' Returns an evenid in integer form '''
