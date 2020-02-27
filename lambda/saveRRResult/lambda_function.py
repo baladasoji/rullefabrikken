@@ -24,12 +24,28 @@ def lambda_handler(event, context):
             }
     )
     
+    res=body.get('result')
+    for i in res:
+        print(i)
+        print(i.get('playerid'))
+        print(i.get('points'))
+        update_player_points(i.get('playerid'), i.get("points"))
+    
     # TODO implement
     return {
         'statusCode': 200,
         'body': json.dumps('Hello from Lambda!')
     }
 
+
+def update_player_points(playerid, add_points):
+  print (playerid)
+  client = boto3.resource('dynamodb')
+  db = client.Table("RRPlayers")
+  p = db.get_item( Key={'id': int(playerid)})
+  print(p)
+  new_points = int(p.get('Item').get('points'))+int(add_points);
+  return db.update_item(Key= {'id':int(playerid) }, UpdateExpression= 'SET #points = :label', ExpressionAttributeNames= {"#points" : "points"},  ExpressionAttributeValues= { ":label": new_points } )
 
 def get_bodyjson(event):
     body = None
