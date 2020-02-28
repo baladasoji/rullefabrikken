@@ -91,16 +91,17 @@ def players_by_group(groupname):
    rrplayersResponse = rrplayersTab.scan( FilterExpression=fe )
    print rrplayersResponse['Items']
 
+
 def players_groups():
    dynamodb = boto3.resource('dynamodb')
    rrplayersTab = dynamodb.Table('RRPlayers')
    pe = "agegroup"
    rrplayersResponse = rrplayersTab.scan( ProjectionExpression=pe )
-   print rrplayersResponse
-   lst=[]
-   f=lambda y: y.values()[0]
+   x=[]
+   f=lambda y: y['agegroup']
    x=list(dict.fromkeys([ f(y)  for y in rrplayersResponse['Items'] ]))
    return {'Items' : x}
+
 
 def reset_points():
    dynamodb = boto3.resource('dynamodb')
