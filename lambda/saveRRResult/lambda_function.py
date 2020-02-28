@@ -47,7 +47,7 @@ def lambda_handler(event, context):
 
 
 def update_player_points(playerid, add_points):
-  logger.debug ('Adding points: '+ str(add_points) +' to player id :'+ str(playerid))
+  logger.info ('Adding points: '+ str(add_points) +' to player id :'+ str(playerid))
   client = boto3.resource('dynamodb')
   db = client.Table("RRPlayers")
   p = db.get_item( Key={'id': int(playerid)})
