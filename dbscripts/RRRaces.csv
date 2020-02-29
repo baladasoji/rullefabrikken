@@ -1,4 +1,5 @@
 id,eventid,name,agegroup,laps,racetype,sex,status,starttime,resultid
+0,0,dummy race, dummygrp, 3, dummytype,a,not started, 9:00,0
 1,1,mini linje 2,mini,2,linje,a,not started,9:00,0
 2,1,maxi linje 3,maxi,3,linje,a,not started,9:15,0
 3,1,ung linje 3,ung,3,linje,a,not started,9:30,0

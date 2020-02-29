@@ -1,6 +1,4 @@
-var rr_api_url="https://cqvn88ysje.execute-api.eu-west-1.amazonaws.com/test"
 //var players;
-var eventid=0;
 var raceid=0;
 var eventcols = [ {sortable:false,field:'id', title:'ID'},
                   {sortable:false,field:'Club', title:'Klub'},
@@ -91,7 +89,7 @@ function getPlayers(scroll=false)
     $('#rrplayers').bootstrapTable('removeAll');
     var apiXMLReq = new XMLHttpRequest();
     if (raceid == 0)
-       apiXMLReq.open("GET", rr_api_url + '/players' , true );
+       apiXMLReq.open("GET", rr_api_url + '/players?eventid='+eventid , true );
     else
        apiXMLReq.open("GET", rr_api_url + '/players?raceid='+raceid , true );
 
@@ -113,7 +111,6 @@ function getPlayers(scroll=false)
 function loadTables()
 {
    //getEvents();
-   eventid=1;
    getRaces();
    getPlayers();
 }

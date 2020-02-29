@@ -1,4 +1,5 @@
 id,eventid,firstname,lastname,bib,dateofbirth,age,sex,agegroup,points
+0,0,DummyFN, DummyLN,0,01011979,1,U,dummygrp,0
 1,1,varsha,Dasoji,35,1012009,11,F,maxi,0
 2,1,Cecelie,halle,65,1012010,7,F,mini,0
 3,1,Rohit,Dasoji,55,1012011,6,M,mini,0

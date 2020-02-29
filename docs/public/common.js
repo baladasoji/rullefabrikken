@@ -1,5 +1,5 @@
 var rr_api_url="https://rr.dasoji.net";
-var eventid=sessionStorage.eventid!=null ? sessionStorage.eventid : 1;
+var eventid=sessionStorage.eventid!=null ? sessionStorage.eventid : 0;
 var apitimeout=sessionStorage.apitimeout!=null ? sessionStorage.apitimeout : 2500;
 var cooldowntimeout=sessionStorage.cooldowntimeout!=null ? sessionStorage.cooldowntimeout : 5000;
 var blapcounter=sessionStorage.blapcounter!=null ? JSON.parse(sessionStorage.blapcounter) : false;

@@ -42,7 +42,7 @@ function displayRankingTable(ranking)
 function apiGetPlayers()
 {
   var apiXMLReq = new XMLHttpRequest();
-     apiXMLReq.open("GET", rr_api_url + '/players/bygroup' , true );
+     apiXMLReq.open("GET", rr_api_url + '/players/bygroup?eventid='+eventid , true );
   apiXMLReq.send(null);
   apiXMLReq.onload = function () {
       if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {

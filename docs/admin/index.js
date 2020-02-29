@@ -10,7 +10,7 @@ access_token=sessionStorage.access_token;
     apiGetConfig();
   }
 }
-var rr_api_url="https://cqvn88ysje.execute-api.eu-west-1.amazonaws.com/test";
+var rr_api_url="https://rr.dasoji.net";
 var eventid=1;
 var apitimeout=2500;
 var cooldowntimeout=2000;
@@ -58,14 +58,14 @@ function apiGetConfig() {
 }
 function apiClearPlayerPoints() {
   var apiXMLReq = new XMLHttpRequest();
-  apiXMLReq.open("GET", rr_api_url + '/players/clearpoints' , true );
+  apiXMLReq.open("GET", rr_api_url + '/players/clearpoints?eventid='+eventid , true );
   apiXMLReq.send(null);
   apiXMLReq.onload = function () {
       if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
-        alert('Points Cleared')
+        alert('Points Cleared for event: '+eventid)
          // alert('All players checkedout');
       } else {
-          alert('Error in clearing points');
+          alert('Error in clearing points for event: '+eventid);
       }
   }
 }
@@ -74,14 +74,14 @@ function apiClearPlayerPoints() {
 
 function apiRefreshPlayerPoints() {
   var apiXMLReq = new XMLHttpRequest();
-  apiXMLReq.open("GET", rr_api_url + '/players/refreshpoints' , true );
+  apiXMLReq.open("GET", rr_api_url + '/players/refreshpoints?eventid='+eventid , true );
   apiXMLReq.send(null);
   apiXMLReq.onload = function () {
       if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
-        alert('Points Refreshed from results')
+        alert('Points Refreshed from results for eventid: '+eventid)
          // alert('All players checkedout');
       } else {
-          alert('Error in Refreshing points');
+          alert('Error in Refreshing points for event: '+eventid);
       }
   }
 }
