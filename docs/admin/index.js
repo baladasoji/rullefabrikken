@@ -56,3 +56,32 @@ function apiGetConfig() {
       }
   }
 }
+function apiClearPlayerPoints() {
+  var apiXMLReq = new XMLHttpRequest();
+  apiXMLReq.open("GET", rr_api_url + '/players/clearpoints' , true );
+  apiXMLReq.send(null);
+  apiXMLReq.onload = function () {
+      if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
+        alert('Points Cleared')
+         // alert('All players checkedout');
+      } else {
+          alert('Error in clearing points');
+      }
+  }
+}
+
+
+
+function apiRefreshPlayerPoints() {
+  var apiXMLReq = new XMLHttpRequest();
+  apiXMLReq.open("GET", rr_api_url + '/players/refreshpoints' , true );
+  apiXMLReq.send(null);
+  apiXMLReq.onload = function () {
+      if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
+        alert('Points Refreshed from results')
+         // alert('All players checkedout');
+      } else {
+          alert('Error in Refreshing points');
+      }
+  }
+}

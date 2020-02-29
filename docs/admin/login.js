@@ -5,7 +5,10 @@ async function logSha1( str ) {
   // Convert digest to hex string
   const result = Array.from(new Uint8Array(digest)).map( x => x.toString(16).padStart(2,'0') ).join('');*/
   const result = SHA1(str);
-  sessionStorage.access_token = result;
+  if (str == "rr1501")
+  {
+    sessionStorage.access_token = result;
+  }
           setTimeout(function(){
               window.location.href = "index.html";
           }, 1000);
