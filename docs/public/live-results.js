@@ -1,6 +1,6 @@
-//var players;
 var liverefreshinterval=sessionStorage.liverefreshinterval!=null ? sessionStorage.liverefreshinterval : 5000;
 var timersecs=0;
+var totallaps=0;
 var resultcols =[
                   {sortable:true,field:'id', title:'#'},
                   {sortable:true,field:'name', title:'Navn'},
@@ -30,6 +30,7 @@ function populateResults(liveresult)
   $('#index').bootstrapTable({columns:resultcols, data:arrWrap});
   $('#index').bootstrapTable('load',arrWrap);
   $('#index').bootstrapTable('refreshOptions',{"theadClasses": "thead-light"});
+  totallaps = Number(liveresult.raceinfo.laps);
   livedata=liveresult.liveresult;
   livedata.sort(function(a,b) {
          if ( a.laps == b.laps)
@@ -39,23 +40,31 @@ function populateResults(liveresult)
             //return a.totaltime - b.totaltime;
           });
   // Set the position after sorting
-  for (i=0 ; i<livedata.length; i++ )
-  {
+  for (i=0 ; i<livedata.length; i++ ) {
     livedata[i].position=i+1;
     livedata[i].totaltime = convertSecondsToTime (livedata[i].totaltime);
     livedata[i].displayablelaptimes=[];
-    for (j=0 ; j<livedata[i].laptimes.length; j++ )
-    {
+    for (j=0 ; j<livedata[i].laptimes.length; j++ ) {
       if (j==0)
         livedata[i].displayablelaptimes[j]= convertSecondsToTime(livedata[i].laptimes[j]) ;
-      else {
+      else
         livedata[i].displayablelaptimes[j]= convertSecondsToTime(livedata[i].laptimes[j]-livedata[i].laptimes[j-1]) ;
-      }
     }
   }
-  $('#liveres').bootstrapTable({columns:ircols, data:livedata});
+  $('#liveres').bootstrapTable({columns:ircols, data:livedata });
+  $('#liveres').bootstrapTable('refreshOptions',{"theadClasses": "thead-light","rowStyle":"rowStyle"});
   $('#liveres').bootstrapTable('load',livedata);
-  $('#liveres').bootstrapTable('refreshOptions',{"theadClasses": "thead-light"});
+  document.getElementById("liveres").scrollIntoView();
+  //$('#liveres').bootstrapTable('refreshOptions',{"theadClasses": "thead-light"});
+}
+
+function rowStyle(row, index) {
+    if (row.laps == totallaps)
+      return { css: { color: 'green' } }
+    else if (row.laps == totallaps-1)
+      return { css: { color: 'blue' } }
+    else
+      return {}
 }
 
 function convertSecondsToTime(t=timersecs) {
