@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html>
 	<head>
 		<title>Rulle Ræs</title>
@@ -9,10 +10,11 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="view.css">
     <script type="text/javascript" src="common.js"></script>
-    <script type="text/javascript" src="resadmin.js"></script>
+    <script type="text/javascript" src="padmin.js"></script>
 	</head>
-	<body class="is-preload" onload="apiGetResults()">
+	<body class="is-preload" onload="loadTables()">
 		<!-- Wrapper -->
 			<div id="wrapper">
 
@@ -22,7 +24,7 @@
 
 							<!-- Logo -->
 								<a href="index.html" class="logo">
-									<span class="title">  Rulle Ræs </span>
+									<i class="fas fa-home fa-4x"></i>
 								</a>
 
 							<!-- Nav -->
@@ -43,28 +45,34 @@
 						<li><a href="login.html">Login</a></li>
 						<li><a href="radmin.html">Race Admin</a></li>
 						<li><a href="resadmin.html">Result Admin</a></li>
-							<li><a href="padmin.html">Player Admin</a></li>
+						<li><a href="padmin.html">Player Admin</a></li>
 					</ul>
 				</nav>
-				<!-- Main -->
-        <div id="main">
-          <div class="inner">
-            <header>
-              <h1>Resultater</h1>
-            </header>
-              <!-- Main jumbotron for a primary marketing message or call to action -->
 
-            <div class="container mt-1"> <table id="index"></table> </div>
-            <div class="container" id="allresults"> </div> <!-- schedule -->
-          </div>
-        </div>
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<header>
+								<h1>Race Info</h1>
+							</header>
+							<div class="container">
+
+										<div class="d-flex p-3 justify-content-center mb-2 bg-info text-white h2">Players</div>
+                   <table id="rrplayers" data-sortable=true><thead class="thead-dark"/> </table>
+                    </table>
+										<div class="d-flex p-3 justify-content-center mt-4 mb-2 bg-info text-white h2">Update Player</div>
+                    <div id="playeredit"/>
+
+							</div>
+       		</div>
+				</div>
+			</div>
 
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>

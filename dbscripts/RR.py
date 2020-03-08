@@ -10,7 +10,7 @@ def convert_csv_to_json_list(file):
           '''print (row)'''
           data = {}
           for k in row.keys():
-            if ( k == 'id' or k == 'eventid' or k=='bib' or k=='age' or k=='points'):
+            if ( k == 'id' or k == 'eventid' or k=='bib' or k=='age' or k=='points' or k=='penaltypoints'):
                data[k] = int(row[k])
             else:
                data[k] = row[k]
@@ -129,12 +129,12 @@ def update_results(eventid):
      rrplayersTab.update_item(Key={'id':i['id'] }, UpdateExpression= 'SET #pnt = :point', ExpressionAttributeNames= {"#pnt" : "points"},  ExpressionAttributeValues= { ":point": pdict.get(i['id']) } )
 
 if __name__ == '__main__':
-   print players_groups()
+   clean_and_reload_RR()
    '''
+   print players_groups()
    players_by_group('maxi')
    reset_points()
    update_results(1)
-   clean_and_reload_RR()
    update_race_status(2,'finished')
    count_Table('RRPlayers')
    cleanup_Event(1);

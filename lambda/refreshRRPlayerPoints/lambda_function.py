@@ -25,7 +25,7 @@ def update_results(eventid):
    players = rrplayersResponse['Items']
    pdict={}
    for i in players:
-    pdict[i.get('id')]=0
+    pdict[i.get('id')]=int(i.get('penaltypoints'))
    for r in results:
     res=r['result']
     for rr in res:
