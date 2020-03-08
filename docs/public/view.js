@@ -20,7 +20,7 @@ var playercols= [
                   {sortable:false,field:'firstname', title:'Fornavn'},
                   {sortable:false,field:'lastname', title:'Efternavn'},
                   {sortable:true,field:'agegroup', title:'Gruppe'},
-                  {sortable:false,field:'age', title:'Alder'},
+                  {sortable:true,field:'age', title:'Alder'},
                   {sortable:false,field:'sex', title:'Kon'}
                ];
 
