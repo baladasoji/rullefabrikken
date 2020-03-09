@@ -9,6 +9,7 @@ var playercols= [
                   {field: 'update', title: 'Update', align: 'center', clickToSelect: false,  formatter: updateFormatter }
                ];
 
+var  agegrp=[];
 var eventdata;
 var racedata;
 var playerdata;
@@ -57,7 +58,6 @@ function getRaces()
 function updatePlayer(player)
 {
   penarr= ['-5', '-4', '-3', '-2', '-1', '0', '1', '2', '3', '4', '5'];
-  agegrp=['mini','maxi'];
   tarr =[ `<div class="row">`,
    `<div class="col-1">${player.bib} </div>`,
    `<div class="col-2"> ${player.firstname}</div>`,
@@ -139,7 +139,33 @@ function apiGetPlayers(scroll=false)
         }
     }
 }
+
+
+function populateGroups(allplayers)
+{
+  agegrp=[];
+  allplayers.Items.forEach(grp => agegrp.push(grp.agegroup));
+}
+
+function apiGetPlayerGroups()
+{
+  var apiXMLReq = new XMLHttpRequest();
+     apiXMLReq.open("GET", rr_api_url + '/players/bygroup?eventid='+eventid , true );
+  apiXMLReq.send(null);
+  apiXMLReq.onload = function () {
+      if (apiXMLReq.readyState == 4 && apiXMLReq.status == "200") {
+        allplayers = JSON.parse(apiXMLReq.responseText);
+        populateGroups(allplayers);
+         // alert('All players checkedout');
+      } else {
+          alert('Error in Get players by group');
+      }
+  }
+}
+
+
 function loadTables()
 {
+   apiGetPlayerGroups();
    apiGetPlayers();
 }
