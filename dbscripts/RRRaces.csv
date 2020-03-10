@@ -9,3 +9,9 @@ id,eventid,name,agegroup,laps,racetype,sex,status,starttime,resultid
 7,1,mini linje 5,mini,5,linje,a,not started,10:30,0
 8,1,maxi linje 7,maxi,7,linje,a,not started,10:45,0
 9,1,ung linje 7,ung,7,linje,a,not started,11:00,0
+10,2,mini linje 2,mini,2,linje,a,not started,14:00,0
+11,2,maxi linje 3,maxi,3,linje,a,not started,14:15,0
+12,2,mini linje 3,mini,3,linje,a,not started,14:45,0
+13,2,maxi linje 5,maxi,5,linje,a,not started,15:00,0
+14,2,mini linje 7,mini,7,linje,a,not started,15:15,0
+15,2,maxi linje 10,maxi,10,linje,a,not started,15:30,0
