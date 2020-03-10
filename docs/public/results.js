@@ -5,7 +5,8 @@ var resultcols =[
                   {sortable:true,field:'agegroup', title:'Age Group'},
                   {sortable:true,field:'eventid', title:'Event ID'},
                   {sortable:true,field:'laps', title:'Laps'},
-                  {sortable:true,field:'racename', title:'Name'}
+                  {sortable:true,field:'racename', title:'Name'},
+                  {field: 'operate', title: 'print', align: 'center', clickToSelect: false,  formatter: operateFormatter }
                ];
 var ircols = [
                   {field:'position', title:'#'},
@@ -27,6 +28,15 @@ function getURLParameter(name) {
 
 function initializeApp() {
   
+}
+
+function operateFormatter(value, row, index) {
+  console.log(row);
+  return [
+    `<a class="like" href=printres.html?eventid=${row.eventid}&raceid=${row.raceid} target="_blank" title="Print">`,
+    '<i class="fa fa-print fa-2x"></i>',
+    '</a>  '
+  ].join('')
 }
 
 function populateResults(allresults)
