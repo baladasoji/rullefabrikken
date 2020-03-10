@@ -206,8 +206,8 @@ function populateRaces() {
   allraces.forEach(r => { row += buildRaceMenu(row,r);});
   //console.log("row is "+ row);
   document.getElementById('racesdd').innerHTML = row;
-  i=1;
-  allraces.forEach(r => { (document.getElementById(`race${i}`)).setAttribute('onclick', `showRaceInfo(${i})`); i++; });
+  i=0;
+  allraces.forEach(r => { (document.getElementById(`race${r.id}`)).setAttribute('onclick', `showRaceInfo(${i})`); i++; });
 
 }
 
@@ -218,7 +218,7 @@ function buildRaceMenu(row,r) {
 
 function showRaceInfo(num) {
   clearPlayerList();
-  raceinfo = allraces[num-1];
+  raceinfo = allraces[num];
   var row='' ;
   raceinfocols=[ {field:'id', title:'ID'},
     {field:'laps', title:'Laps'},

@@ -89,7 +89,7 @@ def players_by_group(groupname):
    rrplayersTab = dynamodb.Table('RRPlayers')
    fe = Key('agegroup').eq(groupname)
    rrplayersResponse = rrplayersTab.scan( FilterExpression=fe )
-   print rrplayersResponse['Items']
+   print (rrplayersResponse['Items'])
 
 
 def players_groups():
