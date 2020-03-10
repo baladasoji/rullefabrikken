@@ -19,6 +19,7 @@ var playercols= [
                   {sortable:true,field:'bib', title:'Start #'},
                   {sortable:false,field:'firstname', title:'Fornavn'},
                   {sortable:false,field:'lastname', title:'Efternavn'},
+                  {sortable:false,field:'club', title:'Klub'},
                   {sortable:true,field:'agegroup', title:'Gruppe'},
                   {sortable:true,field:'age', title:'Alder'},
                   {sortable:false,field:'sex', title:'Kon'}
